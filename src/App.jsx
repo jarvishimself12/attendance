@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { LogIn, User, Calendar, CheckCircle2, History, LogOut, Clock, Mail, Briefcase, Settings, Bell, Phone, Check, Eye, EyeOff } from 'lucide-react';
+import { Calendar, Check, CheckCircle2, Eye, EyeOff, Hammer, History, Home, Image, Layers, LogIn, LogOut, Mail, Monitor, Palette, Settings } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 // Firebase Imports
-import { auth, db } from './firebase';
 import {
-    signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
-    signOut,
     onAuthStateChanged,
-    updateProfile
+    signInWithEmailAndPassword,
+    signOut
 } from "firebase/auth";
 import {
-    collection,
     addDoc,
-    query,
-    where,
-    getDocs,
-    orderBy,
-    onSnapshot,
-    setDoc,
+    collection,
     doc,
-    getDoc
+    getDoc,
+    onSnapshot,
+    orderBy,
+    query,
+    setDoc,
+    where
 } from "firebase/firestore";
+import { auth, db } from './firebase';
 
 function App() {
     const [showSplash, setShowSplash] = useState(true);
@@ -43,6 +41,13 @@ function App() {
     const [phone, setPhone] = useState('');
     const [gender, setGender] = useState('');
     const [error, setError] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+    const [editData, setEditData] = useState({});
+    const [enrollmentData, setEnrollmentData] = useState({
+        location: '',
+        shift: '',
+        summary: ''
+    });
 
     // 1. Monitor Auth State
     useEffect(() => {
@@ -54,7 +59,9 @@ function App() {
                     const docRef = doc(db, "users", firebaseUser.uid);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
-                        setUserData(docSnap.data());
+                        const data = docSnap.data();
+                        setUserData(data);
+                        setEditData(data);
                     }
                 } catch (err) {
                     console.error("Error fetching user data:", err);
@@ -106,12 +113,6 @@ function App() {
         e.preventDefault();
         setError('');
 
-        // Check if Firebase is configured
-        if (auth.app.options.apiKey === "YOUR_API_KEY") {
-            setError("Firebase not configured. Please add your API keys in src/firebase.js");
-            return;
-        }
-
         try {
             if (isRegistering) {
                 if (!firstName || !lastName || !email || !password || !phone || !gender) {
@@ -133,12 +134,25 @@ function App() {
                 };
                 await setDoc(doc(db, "users", fbUser.uid), newUserInfo);
                 setUserData(newUserInfo);
+                setEditData(newUserInfo);
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
             }
         } catch (err) {
             console.error(err);
             setError(err.message.replace("Firebase: ", ""));
+        }
+    };
+
+    const handleUpdateProfile = async (e) => {
+        e.preventDefault();
+        try {
+            await setDoc(doc(db, "users", user.uid), editData, { merge: true });
+            setUserData(editData);
+            setIsEditing(false);
+            alert("Profile updated successfully!");
+        } catch (err) {
+            setError("Update failed: " + err.message);
         }
     };
 
@@ -154,7 +168,8 @@ function App() {
         setPhone(''); setGender(''); setError('');
     };
 
-    const markAttendance = async () => {
+    const markAttendance = async (e) => {
+        if (e) e.preventDefault();
         try {
             await addDoc(collection(db, "attendance"), {
                 userEmail: user.email,
@@ -162,8 +177,11 @@ function App() {
                 date: new Date().toLocaleDateString(),
                 time: new Date().toLocaleTimeString(),
                 timestamp: Date.now(),
-                status: 'Present'
+                status: 'Present',
+                details: enrollmentData
             });
+            setView('home');
+            setEnrollmentData({ location: '', shift: '', summary: '' });
         } catch (err) {
             setError("Failed to mark attendance: " + err.message);
         }
@@ -174,7 +192,7 @@ function App() {
             <div className="min-h-screen flex items-center justify-center p-4 bg-[#0f172a]">
                 <div className="text-center animate-pulse">
                     <Calendar className="w-16 h-16 text-blue-500 mx-auto mb-4 animate-bounce" />
-                    <h1 className="text-2xl font-black text-white uppercase tracking-widest">DC TECH</h1>
+                    <h1 className="text-2xl font-black text-white uppercase tracking-widest">DC TECH AND ART SERVICES</h1>
                 </div>
             </div>
         );
@@ -188,8 +206,8 @@ function App() {
                         <div className="bg-blue-500/20 p-4 rounded-full mb-4">
                             <LogIn className="w-8 h-8 text-blue-400" />
                         </div>
-                        <h1 className="text-3xl font-extrabold tracking-tight">DC Attendance</h1>
-                        <p className="text-gray-400 mt-2 text-sm">Secure Production Login</p>
+                        <h1 className="text-3xl font-extrabold tracking-tight text-center">DC TECH AND ART</h1>
+                        <p className="text-gray-400 mt-2 text-sm">Employee Portal</p>
                     </div>
 
                     <form onSubmit={handleAuth} className="space-y-4">
@@ -255,7 +273,7 @@ function App() {
                 </div>
 
                 <div className="relative">
-                    <button onClick={() => setShowProfileMenu(!showProfileMenu)} className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center border-2 border-white/10 shadow-xl cursor-pointer hover:rotate-6 transition-all duration-300">
+                    <button onClick={() => setShowProfileMenu(!showProfileMenu)} className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-full flex items-center justify-center border-2 border-white/10 shadow-xl cursor-pointer hover:rotate-6 transition-all duration-300">
                         <span className="text-xs font-black uppercase tracking-tighter">
                             {userData ? userData.firstName[0] + userData.lastName[0] : '...'}
                         </span>
@@ -281,7 +299,7 @@ function App() {
                     <div className="space-y-8">
                         <div className="glass p-10 rounded-[2.5rem] border border-white/5 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 blur-[80px] rounded-full -translate-x-12 -translate-y-12"></div>
-                            <h1 className="text-5xl font-black tracking-tighter mb-2 italic">HI, {userData ? userData.firstName.toUpperCase() : 'USER'}!</h1>
+                            <h1 className="text-5xl font-black tracking-tighter mb-2 italic">Hi, {userData ? userData.firstName : 'User'}!</h1>
                             <p className="text-gray-400 text-sm font-bold uppercase tracking-[0.1em]">Ready for your shift at DC TECH?</p>
                         </div>
 
@@ -296,14 +314,99 @@ function App() {
                                     <p className="text-gray-500 mt-2 text-[10px] font-bold uppercase tracking-widest italic font-mono">Timestamp: {logs[0]?.time}</p>
                                 </div>
                             ) : (
-                                <button onClick={markAttendance} className="relative group px-16 py-8 bg-blue-600 rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl shadow-blue-500/30 hover:bg-blue-700 active:scale-95 transition-all cursor-pointer">
-                                    <div className="flex items-center space-x-4">
-                                        <CheckCircle2 className="w-6 h-6" />
-                                        <span className="text-lg">Clock In Now</span>
+                                <div className="flex flex-col items-center space-y-8">
+                                    <button onClick={() => setView('enrollment')} className="relative group px-16 py-8 bg-blue-600 rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl shadow-blue-500/30 hover:bg-blue-700 active:scale-95 transition-all cursor-pointer animate-zoom-pulse">
+                                        <div className="flex items-center space-x-4">
+                                            <CheckCircle2 className="w-6 h-6" />
+                                            <span className="text-lg">Enroll Now</span>
+                                        </div>
+                                    </button>
+
+                                    {/* Decorative Tech Rectangle */}
+                                    <div className="relative w-full max-w-sm aspect-[16/9] bg-blue-600 rounded-[2rem] shadow-2xl shadow-blue-500/30 overflow-hidden border border-white/10">
+                                        <img
+                                            src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800"
+                                            alt="DC Tech Environment"
+                                            className="w-full h-full object-cover opacity-40"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent"></div>
+                                        <div className="absolute bottom-6 left-6 text-left">
+                                            <p className="text-[8px] font-black uppercase tracking-[0.4em] text-blue-500 mb-1">Office Portal</p>
+                                            <p className="text-sm font-black uppercase tracking-widest italic opacity-80">DC TECH AND ART SERVICES</p>
+                                        </div>
                                     </div>
-                                </button>
+                                </div>
                             )}
                         </div>
+                    </div>
+                )}
+
+                {view === 'enrollment' && (
+                    <div className="glass p-10 rounded-[2.5rem] border border-white/5 animate-fade-in">
+                        <div className="mb-8 text-center">
+                            <h2 className="text-3xl font-black uppercase tracking-tighter italic">Fill this form</h2>
+                            <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mt-2">Please complete these details to Clock In</p>
+                        </div>
+
+                        <form onSubmit={markAttendance} className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Work Location</label>
+                                    <select
+                                        required
+                                        value={enrollmentData.location}
+                                        onChange={(e) => setEnrollmentData({ ...enrollmentData, location: e.target.value })}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all appearance-none"
+                                    >
+                                        <option value="" disabled className="bg-slate-900">Select Location</option>
+                                        <option value="Main Office" className="bg-slate-900">Main Office</option>
+                                        <option value="Remote / Home" className="bg-slate-900">Remote / Home</option>
+                                        <option value="On-Site Visit" className="bg-slate-900">On-Site Visit</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Current Shift</label>
+                                    <select
+                                        required
+                                        value={enrollmentData.shift}
+                                        onChange={(e) => setEnrollmentData({ ...enrollmentData, shift: e.target.value })}
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all appearance-none"
+                                    >
+                                        <option value="" disabled className="bg-slate-900">Select Shift</option>
+                                        <option value="Morning (8am - 4pm)" className="bg-slate-900">Morning (8am - 4pm)</option>
+                                        <option value="Afternoon (2pm - 10pm)" className="bg-slate-900">Afternoon (2pm - 10pm)</option>
+                                        <option value="Night (10pm - 6am)" className="bg-slate-900">Night (10pm - 6am)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Work Summary</label>
+                                <textarea
+                                    required
+                                    value={enrollmentData.summary}
+                                    onChange={(e) => setEnrollmentData({ ...enrollmentData, summary: e.target.value })}
+                                    placeholder="Briefly summarize your planned tasks for today..."
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all h-24 resize-none"
+                                />
+                            </div>
+
+                            <div className="flex gap-4 pt-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setView('home')}
+                                    className="flex-1 bg-white/5 hover:bg-white/10 text-gray-400 font-black py-4 rounded-[1.5rem] uppercase tracking-widest text-[10px] transition-all cursor-pointer"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-[1.5rem] uppercase tracking-widest text-[10px] transition-all shadow-lg shadow-blue-500/20 cursor-pointer"
+                                >
+                                    Submit and Verify
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 )}
 
@@ -315,10 +418,12 @@ function App() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {[
-                                { title: 'Deeper Solutions', icon: <Briefcase />, desc: 'Advanced software ecosystems for corporate infrastructure.' },
-                                { title: 'Art & Motion', icon: <Calendar />, desc: 'Visual storytelling and specialized motion graphics.' },
-                                { title: 'Cloud Data', icon: <Settings />, desc: 'Real-time database management and secure storage.' },
-                                { title: 'System Security', icon: <LogIn />, desc: 'Identity protection and encrypted activity logs.' }
+                                { title: '3D & 2D Installation', icon: <Layers />, desc: 'Expert physical branding and technical mountings.' },
+                                { title: 'Graphic Design', icon: <Palette />, desc: 'Stunning visual identities and digital art solutions.' },
+                                { title: 'Fabrications', icon: <Hammer />, desc: 'Custom construction and specialized structural work.' },
+                                { title: 'Picture Frames', icon: <Image />, desc: 'Premium custom framing for art and photography.' },
+                                { title: 'Logo Backdrops', icon: <Monitor />, desc: 'Stage and office branding for maximum impact.' },
+                                { title: 'Indoor Decorations', icon: <Home />, desc: 'Bespoke interior styling and corporate aesthetics.' }
                             ].map((s, idx) => (
                                 <div key={idx} className="glass p-8 rounded-3xl hover:bg-white/10 transition-all cursor-default border border-white/5 group">
                                     <div className="bg-blue-600 p-3 w-12 h-12 rounded-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform">{s.icon}</div>
@@ -342,15 +447,25 @@ function App() {
                                     {logs.map((log) => (
                                         <tr key={log.id} className="hover:bg-white/5 border-b border-white/5 last:border-0 transition-colors">
                                             <td className="px-10 py-6">
-                                                <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">Date</p>
-                                                <p className="font-bold text-sm">{log.date}</p>
+                                                <div className="flex items-center space-x-4">
+                                                    <div className="bg-blue-500/10 p-2 rounded-lg">
+                                                        <Calendar className="w-4 h-4 text-blue-400" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Date</p>
+                                                        <p className="font-bold text-sm tracking-tight">{log.date}</p>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td className="px-10 py-6">
-                                                <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-1">Time</p>
+                                                <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Time</p>
                                                 <p className="font-bold text-sm opacity-60 font-mono tracking-tighter">{log.time}</p>
                                             </td>
                                             <td className="px-10 py-6 text-right">
-                                                <span className="bg-green-500/20 text-green-400 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] border border-green-500/20">Verified</span>
+                                                <div className="inline-flex items-center space-x-2 bg-green-500/10 text-green-400 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] border border-green-500/20">
+                                                    <CheckCircle2 className="w-3 h-3" />
+                                                    <span>Verified</span>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -366,13 +481,51 @@ function App() {
                             <h2 className="text-3xl font-black tracking-tighter uppercase mb-10 italic">Employee Hub</h2>
                             <div className="grid gap-4">
                                 <div className="bg-white/5 p-8 rounded-3xl border border-white/5">
-                                    <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em] mb-4">Official Profile</p>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6">
-                                        <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Full Identity</p><p className="font-black text-lg uppercase tracking-tight">{userData ? `${userData.firstName} ${userData.lastName}` : '...'}</p></div>
-                                        <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Gender Identity</p><p className="font-black text-lg uppercase tracking-tight">{userData ? userData.gender : '...'}</p></div>
-                                        <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Registered Contact</p><p className="font-black text-lg uppercase tracking-tight">{userData ? userData.phone : '...'}</p></div>
-                                        <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Secure Email</p><p className="font-black text-lg lowercase tracking-tight opacity-50">{user.email}</p></div>
+                                    <div className="flex justify-between items-center mb-6">
+                                        <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em]">Official Profile</p>
+                                        <button
+                                            onClick={() => setIsEditing(!isEditing)}
+                                            className="text-[10px] font-black uppercase text-blue-400 border border-blue-400/30 px-3 py-1 rounded-full hover:bg-blue-400/10 transition-all"
+                                        >
+                                            {isEditing ? 'Cancel' : 'Edit Profile'}
+                                        </button>
                                     </div>
+
+                                    {isEditing ? (
+                                        <form onSubmit={handleUpdateProfile} className="space-y-4">
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="text-[8px] uppercase text-gray-500 font-bold block mb-1">First Name</label>
+                                                    <input type="text" value={editData.firstName} onChange={(e) => setEditData({ ...editData, firstName: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm focus:border-blue-500 outline-none" required />
+                                                </div>
+                                                <div>
+                                                    <label className="text-[8px] uppercase text-gray-500 font-bold block mb-1">Last Name</label>
+                                                    <input type="text" value={editData.lastName} onChange={(e) => setEditData({ ...editData, lastName: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm focus:border-blue-500 outline-none" required />
+                                                </div>
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="text-[8px] uppercase text-gray-500 font-bold block mb-1">Phone</label>
+                                                    <input type="tel" value={editData.phone} onChange={(e) => setEditData({ ...editData, phone: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm focus:border-blue-500 outline-none" required />
+                                                </div>
+                                                <div>
+                                                    <label className="text-[8px] uppercase text-gray-500 font-bold block mb-1">Gender</label>
+                                                    <select value={editData.gender} onChange={(e) => setEditData({ ...editData, gender: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm focus:border-blue-500 outline-none appearance-none" required>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all text-xs uppercase tracking-widest mt-2">Save Changes</button>
+                                        </form>
+                                    ) : (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6">
+                                            <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Full Identity</p><p className="font-black text-lg uppercase tracking-tight">{userData ? `${userData.firstName} ${userData.lastName}` : '...'}</p></div>
+                                            <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Gender Identity</p><p className="font-black text-lg uppercase tracking-tight">{userData ? userData.gender : '...'}</p></div>
+                                            <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Registered Contact</p><p className="font-black text-lg uppercase tracking-tight">{userData ? userData.phone : '...'}</p></div>
+                                            <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Secure Email</p><p className="font-black text-lg lowercase tracking-tight opacity-50">{user.email}</p></div>
+                                        </div>
+                                    )}
                                 </div>
                                 <button onClick={handleLogout} className="bg-red-500/10 hover:bg-red-500/20 text-red-500 p-8 rounded-[2rem] font-black uppercase tracking-[0.3em] text-[10px] transition-all cursor-pointer border border-red-500/10">Terminate Current Session</button>
                             </div>
@@ -392,7 +545,7 @@ function App() {
                     <button key={item.label} onClick={() => setView(item.view)} className={`flex flex-col items-center space-y-1 relative transition-all duration-300 cursor-pointer ${view === item.view ? 'text-blue-500 scale-110' : 'text-gray-500 opacity-50 hover:opacity-100 hover:text-white'}`}>
                         {item.icon}
                         <span className="text-[8px] font-black uppercase tracking-[0.2em]">{item.label}</span>
-                        {view === item.view && <div className="absolute -top-4 w-12 h-1 bg-blue-500 rounded-full shadow-[0_0_15px_#3b82f6]"></div>}
+                        {view === item.view && <div className="absolute -top-4 w-12 h-1 bg-blue-500 rounded-full shadow-[0_0_20px_#f59e0b]"></div>}
                     </button>
                 ))}
             </div>
