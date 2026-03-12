@@ -430,7 +430,7 @@ function App() {
                         )}
 
                         <div className="glass-card p-14 text-center">
-                            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-300 mb-12">Security Checkpoint</h2>
+                            {/* Attendance Action Section */}
                             
                             {isMarkedToday ? (
                                 <div className="animate-fade-in">
@@ -463,94 +463,12 @@ function App() {
                                 </div>
                             )}
 
-                            {/* Live Team Pulse - New Firebase Feature */}
-                            <div className="mt-16 pt-12 border-t border-white/10">
-                                <div className="flex justify-between items-center mb-8">
-                                    <div className="text-left">
-                                        <p className="text-[10px] font-black text-cyan-600 uppercase tracking-[0.4em] mb-1">Live Team Pulse</p>
-                                        <h3 className="text-2xl font-black tracking-tighter uppercase italic text-white">Active Personnel</h3>
-                                    </div>
-                                    <div className="flex items-center space-x-2 bg-white/5 px-4 py-2 rounded-xl">
-                                        <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stats.activeToday} ONLINE</span>
-                                    </div>
-                                </div>
-                                
-                                <div className="flex flex-wrap gap-3">
-                                    {globalLogs.length > 0 ? (
-                                        globalLogs.map((log) => (
-                                            <div key={log.id} className="flex items-center space-x-3 bg-white/5 p-2 pr-5 rounded-2xl border border-white/10 group hover:border-cyan-200 transition-all">
-                                                <div className="w-8 h-8 bg-white border border-white/10 rounded-xl flex items-center justify-center text-[10px] font-black text-cyan-600 shadow-sm group-hover:scale-110 transition-transform">
-                                                    {log.userName ? log.userName.split(' ').map(n => n[0]).join('') : '?'}
-                                                </div>
-                                                <div className="text-left">
-                                                    <p className="text-[9px] font-black text-white leading-tight">{log.userName}</p>
-                                                    <p className="text-[7px] font-bold text-slate-300 uppercase tracking-widest">{log.time}</p>
-                                                </div>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <p className="text-[10px] text-slate-300 font-bold uppercase tracking-widest italic">Waiting for incoming signals...</p>
-                                    )}
-                                </div>
-                            </div>
+
                         </div>
 
-                        {/* Operations Monitor Section */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="glass-card p-10">
-                                <h3 className="text-lg font-black uppercase italic tracking-tighter mb-6 text-white">Infrastructure Health</h3>
-                                <div className="space-y-6">
-                                    {[
-                                        { label: 'Firebase Real-time Sync', status: 'Operational', color: 'bg-emerald-500' },
-                                        { label: 'Biometric Gateway', status: 'Active', color: 'bg-emerald-500' },
-                                        { label: 'Asset DB Cluster', status: 'Optimal', color: 'bg-cyan-500' }
-                                    ].map((item, i) => (
-                                        <div key={i} className="flex justify-between items-center">
-                                            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{item.label}</span>
-                                            <div className="flex items-center space-x-2">
-                                                <span className="text-[8px] font-black text-white uppercase">{item.status}</span>
-                                                <div className={`h-1.5 w-1.5 rounded-full ${item.color}`}></div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
 
-                            <div className="glass-card p-10 relative overflow-hidden group">
-                                <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                <h3 className="text-lg font-black uppercase italic tracking-tighter mb-6 text-white">Art Hub Status</h3>
-                                <div className="flex flex-col h-full justify-between">
-                                    <div>
-                                        <div className="flex items-center justify-between mb-2">
-                                            <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Active Commissions</p>
-                                            <p className="text-lg font-black text-cyan-500">{stats.totalProjects}</p>
-                                        </div>
-                                        <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
-                                            <div className="bg-cyan-500 h-full w-[65%]" />
-                                        </div>
-                                    </div>
-                                    <button className="text-[9px] font-black uppercase tracking-[0.3em] text-cyan-600 hover:text-cyan-700 mt-8 flex items-center space-x-2">
-                                        <span>View Production Schedule</span>
-                                        <span className="text-xs">→</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
 
-                        {/* Broadcast Message Input - New Interaction Point */}
-                        <div className="glass-card p-10">
-                            <form onSubmit={sendAnnouncement} className="flex gap-4">
-                                <input 
-                                    type="text" 
-                                    value={newMsg}
-                                    onChange={(e) => setNewMsg(e.target.value)}
-                                    placeholder="Enter global operational update..." 
-                                    className="input-field flex-1"
-                                />
-                                <button type="submit" className="btn-primary w-fit whitespace-nowrap">Broadcast Update</button>
-                            </form>
-                        </div>
+
                     </div>
                 )}
 
