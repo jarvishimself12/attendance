@@ -189,10 +189,21 @@ function App() {
 
     if (showSplash || loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center p-4 bg-[#0f172a]">
-                <div className="text-center animate-pulse">
-                    <Calendar className="w-16 h-16 text-blue-500 mx-auto mb-4 animate-bounce" />
-                    <h1 className="text-2xl font-black text-white uppercase tracking-widest">DC TECH AND ART SERVICES</h1>
+            <div className="min-h-screen flex items-center justify-center p-4 bg-white overflow-hidden relative">
+                {/* Background Glows */}
+                <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-100 blur-[100px] animate-pulse"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-cyan-50 blur-[100px] animate-pulse delay-700"></div>
+                
+                <div className="text-center relative z-10">
+                    <div className="relative mb-8 flex justify-center">
+                        <div className="absolute inset-0 bg-cyan-500/10 blur-2xl rounded-full scale-150 animate-pulse"></div>
+                        <Calendar className="w-20 h-20 text-cyan-500 relative animate-bounce" />
+                    </div>
+                    <h1 className="text-4xl font-black text-slate-900 tracking-[0.3em] uppercase mb-2 animate-fade-in italic">
+                        DC <span className="text-cyan-500">TECH</span>
+                    </h1>
+                    <div className="h-1.5 w-16 bg-cyan-500 mx-auto rounded-full mb-3"></div>
+                    <p className="text-slate-400 text-[10px] font-black tracking-[0.5em] uppercase opacity-70">Art Services</p>
                 </div>
             </div>
         );
@@ -200,46 +211,59 @@ function App() {
 
     if (!user) {
         return (
-            <div className="min-h-screen flex items-center justify-center p-4">
-                <div className="glass p-8 rounded-2xl w-full max-w-md animate-fade-in text-white">
-                    <div className="flex flex-col items-center mb-8">
-                        <div className="bg-blue-500/20 p-4 rounded-full mb-4">
-                            <LogIn className="w-8 h-8 text-blue-400" />
+            <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+                {/* Decorative Elements */}
+                <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+                    <div className="absolute top-[-10%] right-[-10%] w-[40%] aspect-square bg-indigo-600/10 blur-[120px] rounded-full"></div>
+                    <div className="absolute bottom-[-10%] left-[-10%] w-[40%] aspect-square bg-cyan-600/10 blur-[120px] rounded-full"></div>
+                </div>
+
+                <div className="glass-card p-10 w-full max-w-md relative z-10 animate-fade-in bg-white/80 border-slate-100">
+                    <div className="flex flex-col items-center mb-10">
+                        <div className="bg-cyan-500/10 p-5 rounded-2xl mb-6 border border-cyan-500/5">
+                            <LogIn className="w-8 h-8 text-cyan-500" />
                         </div>
-                        <h1 className="text-3xl font-extrabold tracking-tight text-center">DC TECH AND ART</h1>
-                        <p className="text-gray-400 mt-2 text-sm">Employee Portal</p>
+                        <h1 className="text-4xl font-black tracking-tight text-center italic text-slate-900">
+                            DC <span className="text-cyan-500">TECH</span>
+                        </h1>
+                        <p className="text-slate-400 mt-2 text-xs font-bold uppercase tracking-widest opacity-60">Employee Portal</p>
                     </div>
 
-                    <form onSubmit={handleAuth} className="space-y-4">
-                        {error && <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-xl text-xs font-bold text-center animate-shake">{error}</div>}
+                    <form onSubmit={handleAuth} className="space-y-5">
+                        {error && (
+                            <div className="bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-xl text-xs font-bold text-center animate-shake backdrop-blur-sm">
+                                {error}
+                            </div>
+                        )}
 
                         {isRegistering && (
                             <>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all" placeholder="First Name" required />
-                                    <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all" placeholder="Last Name" required />
+                                    <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="input-field" placeholder="First Name" required />
+                                    <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} className="input-field" placeholder="Last Name" required />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all" placeholder="Phone" required />
-                                    <select value={gender} onChange={(e) => setGender(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-400 text-sm focus:border-blue-500 outline-none transition-all appearance-none" required>
-                                        <option value="" disabled>Gender</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
+                                    <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="input-field" placeholder="Phone" required />
+                                    <select value={gender} onChange={(e) => setGender(e.target.value)} className="input-field appearance-none cursor-pointer" required>
+                                        <option value="" disabled className="bg-slate-900">Gender</option>
+                                        <option value="Male" className="bg-slate-900">Male</option>
+                                        <option value="Female" className="bg-slate-900">Female</option>
                                     </select>
                                 </div>
                             </>
                         )}
 
                         <div className="relative">
-                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all" placeholder="Email Address" required />
+                            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="input-field pl-12" placeholder="Email Address" required />
                             <Mail className="w-5 h-5 text-gray-500 absolute left-4 top-1/2 -translate-y-1/2" />
                         </div>
+                        
                         <div className="relative">
                             <input
                                 type={showPassword ? "text" : "password"}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all pr-12"
+                                className="input-field pr-12"
                                 placeholder="Password"
                                 required
                             />
@@ -252,10 +276,17 @@ function App() {
                             </button>
                         </div>
 
-                        <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl transition-all shadow-lg active:scale-[0.98] mt-2 uppercase tracking-widest text-xs">{isRegistering ? 'Register' : 'Login'}</button>
+                        <button type="submit" className="btn-primary w-full mt-4 uppercase tracking-[0.2em] text-xs py-4">
+                            {isRegistering ? 'Create Account' : 'Sign In'}
+                        </button>
                     </form>
 
-                    <button onClick={() => { setIsRegistering(!isRegistering); resetForms(); }} className="w-full mt-6 text-gray-500 hover:text-white text-[10px] font-black uppercase tracking-[0.2em] transition-all">{isRegistering ? 'Already have an account? Log In' : 'New Employee? Create Account'}</button>
+                    <button 
+                        onClick={() => { setIsRegistering(!isRegistering); resetForms(); }} 
+                        className="w-full mt-8 text-gray-500 hover:text-indigo-400 text-[10px] font-black uppercase tracking-[0.2em] transition-all cursor-pointer"
+                    >
+                        {isRegistering ? 'Already have an account? Log In' : 'New Employee? Register Here'}
+                    </button>
                 </div>
             </div>
         );
@@ -264,30 +295,44 @@ function App() {
     return (
         <div className="min-h-screen text-white pb-28">
             {/* Top Header */}
-            <nav className="glass sticky top-0 z-30 px-6 py-4 flex justify-between items-center backdrop-blur-xl bg-[#0f172a]/70">
-                <div className="flex items-center space-x-2">
-                    <div className="bg-blue-600 p-2 rounded-xl">
+            <nav className="glass sticky top-0 z-30 px-6 py-4 flex justify-between items-center bg-white/80 backdrop-blur-2xl border-b border-slate-100">
+                <div className="flex items-center space-x-3">
+                    <div className="bg-cyan-500 p-2.5 rounded-[1rem] shadow-lg shadow-cyan-500/20">
                         <Calendar className="w-5 h-5 text-white" />
                     </div>
-                    <span className="text-xl font-black tracking-tighter">DC TECH</span>
+                    <div>
+                        <span className="text-xl font-black tracking-tighter block leading-none italic text-slate-900">DC <span className="text-cyan-500">TECH</span></span>
+                        <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400">Employee Portal</span>
+                    </div>
                 </div>
 
                 <div className="relative">
-                    <button onClick={() => setShowProfileMenu(!showProfileMenu)} className="w-10 h-10 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-full flex items-center justify-center border-2 border-white/10 shadow-xl cursor-pointer hover:rotate-6 transition-all duration-300">
-                        <span className="text-xs font-black uppercase tracking-tighter">
-                            {userData ? userData.firstName[0] + userData.lastName[0] : '...'}
-                        </span>
+                    <button 
+                        onClick={() => setShowProfileMenu(!showProfileMenu)} 
+                        className="bg-cyan-500/5 hover:bg-cyan-500/10 p-1.5 rounded-2xl flex items-center space-x-3 transition-all cursor-pointer border border-cyan-500/10 group"
+                    >
+                        <div className="w-10 h-10 bg-cyan-500 rounded-xl flex items-center justify-center shadow-md group-hover:rotate-6 transition-transform">
+                            <span className="text-xs font-black uppercase tracking-tighter text-white">
+                                {userData ? userData.firstName[0] + userData.lastName[0] : '...'}
+                            </span>
+                        </div>
+                        <div className="hidden md:block pr-2 text-left">
+                            <p className="text-[10px] font-black uppercase tracking-tighter leading-none text-slate-900">
+                                {userData ? userData.firstName : 'User'}
+                            </p>
+                            <p className="text-[8px] text-cyan-500 font-bold uppercase tracking-widest opacity-80">Verified</p>
+                        </div>
                     </button>
 
                     {showProfileMenu && (
-                        <div className="absolute right-0 mt-4 w-64 glass rounded-[2rem] p-3 shadow-2xl animate-fade-in border border-white/5 overflow-hidden">
-                            <div className="p-4 border-b border-white/5 text-center mb-2">
-                                <p className="font-black text-sm uppercase tracking-tight">{userData ? `${userData.firstName} ${userData.lastName}` : 'User'}</p>
-                                <p className="text-[10px] text-gray-500 font-mono mt-1 opacity-60 truncate">{user.email}</p>
+                        <div className="absolute right-0 mt-4 w-64 glass-card p-2 shadow-2xl animate-fade-in z-50 overflow-hidden">
+                            <div className="p-5 border-b border-white/5 text-center bg-white/5 rounded-t-[1.5rem] mb-2">
+                                <p className="font-black text-sm uppercase tracking-tight italic">{userData ? `${userData.firstName} ${userData.lastName}` : 'User'}</p>
+                                <p className="text-[9px] text-gray-400 font-bold uppercase tracking-widest mt-1 opacity-60">{user.email}</p>
                             </div>
-                            <button onClick={handleLogout} className="w-full flex items-center justify-center space-x-3 p-4 hover:bg-red-500/10 text-red-400 rounded-2xl transition-all cursor-pointer font-black text-[10px] uppercase tracking-[0.2em]">
+                            <button onClick={handleLogout} className="w-full flex items-center justify-center space-x-3 p-4 hover:bg-red-500/10 text-red-500 rounded-2xl transition-all cursor-pointer font-black text-[10px] uppercase tracking-[0.2em]">
                                 <LogOut className="w-4 h-4" />
-                                <span>Sign Out</span>
+                                <span>Sign Out Now</span>
                             </button>
                         </div>
                     )}
@@ -296,43 +341,64 @@ function App() {
 
             <main className="max-w-4xl mx-auto p-6 animate-fade-in">
                 {view === 'home' && (
-                    <div className="space-y-8">
-                        <div className="glass p-10 rounded-[2.5rem] border border-white/5 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-48 h-48 bg-blue-500/10 blur-[80px] rounded-full -translate-x-12 -translate-y-12"></div>
-                            <h1 className="text-5xl font-black tracking-tighter mb-2 italic">Hi, {userData ? userData.firstName : 'User'}!</h1>
-                            <p className="text-gray-400 text-sm font-bold uppercase tracking-[0.1em]">Ready for your shift at DC TECH?</p>
+                    <div className="space-y-10">
+                        <div className="glass-card p-12 relative overflow-hidden group bg-white">
+                            <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-100/50 blur-[100px] rounded-full -translate-x-12 -translate-y-12 group-hover:bg-cyan-200/50 transition-all duration-700"></div>
+                            <h1 className="text-6xl font-black tracking-tighter mb-4 italic leading-tight text-slate-900">
+                                Morning, <span className="text-cyan-500">{userData ? userData.firstName : 'User'}</span>.
+                            </h1>
+                            <div className="flex items-center space-x-3 opacity-40">
+                                <div className="h-[2px] w-8 bg-slate-900"></div>
+                                <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-900">Operational Readiness Status</p>
+                            </div>
                         </div>
 
-                        <div className="glass p-12 rounded-[3rem] text-center border-t border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5)]">
-                            <h2 className="text-xs font-black uppercase tracking-[0.4em] text-gray-500 mb-10">Verification Portal</h2>
+                        <div className="glass-card p-14 text-center bg-white">
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400 mb-12">Security Checkpoint</h2>
+                            
                             {isMarkedToday ? (
-                                <div className="bg-green-500/5 border border-green-500/10 p-12 rounded-[2rem] transition-all duration-500">
-                                    <div className="bg-green-500 p-4 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 shadow-xl shadow-green-500/20">
-                                        <Check className="w-10 h-10 text-white" />
+                                <div className="animate-fade-in">
+                                    <div className="bg-emerald-50 border border-emerald-100 p-14 rounded-[3rem] transition-all duration-700">
+                                        <div className="bg-emerald-500 p-5 rounded-3xl w-24 h-24 flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-emerald-500/20">
+                                            <Check className="w-12 h-12 text-white" />
+                                        </div>
+                                        <p className="text-emerald-600 font-black text-3xl uppercase tracking-tighter italic">Identity Verified</p>
+                                        <div className="flex items-center justify-center space-x-4 mt-6">
+                                            <div className="px-5 py-2 bg-white rounded-full border border-emerald-100 shadow-sm">
+                                                <p className="text-emerald-500 font-bold text-[10px] uppercase tracking-widest">Clock-In: {logs[0]?.time}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p className="text-green-400 font-black text-2xl uppercase tracking-tighter">Verified Present</p>
-                                    <p className="text-gray-500 mt-2 text-[10px] font-bold uppercase tracking-widest italic font-mono">Timestamp: {logs[0]?.time}</p>
                                 </div>
                             ) : (
-                                <div className="flex flex-col items-center space-y-8">
-                                    <button onClick={() => setView('enrollment')} className="relative group px-16 py-8 bg-blue-600 rounded-[2rem] font-black uppercase tracking-[0.2em] shadow-2xl shadow-blue-500/30 hover:bg-blue-700 active:scale-95 transition-all cursor-pointer animate-zoom-pulse">
-                                        <div className="flex items-center space-x-4">
-                                            <CheckCircle2 className="w-6 h-6" />
-                                            <span className="text-lg">Enroll Now</span>
+                                <div className="flex flex-col items-center space-y-12">
+                                    <button 
+                                        onClick={() => setView('enrollment')} 
+                                        className="btn-primary px-20 py-10 rounded-[2.5rem] group"
+                                    >
+                                        <div className="flex flex-col items-center space-y-2">
+                                            <div className="flex items-center space-x-4">
+                                                <CheckCircle2 className="w-8 h-8" />
+                                                <span className="text-2xl uppercase tracking-tighter italic">Authorize Duty</span>
+                                            </div>
+                                            <p className="text-[8px] font-black uppercase tracking-[0.4em] opacity-60 group-hover:opacity-100 transition-opacity">Biometric Confirmation Required</p>
                                         </div>
                                     </button>
 
-                                    {/* Decorative Tech Rectangle */}
-                                    <div className="relative w-full max-w-sm aspect-[16/9] bg-blue-600 rounded-[2rem] shadow-2xl shadow-blue-500/30 overflow-hidden border border-white/10">
+                                    {/* Visual Tech Panel */}
+                                    <div className="relative w-full max-w-lg aspect-[21/9] rounded-[3rem] overflow-hidden group shadow-2xl border border-white/5">
                                         <img
-                                            src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=800"
-                                            alt="DC Tech Environment"
-                                            className="w-full h-full object-cover opacity-40"
+                                            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200"
+                                            alt="Security Grid"
+                                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100 opacity-30"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent"></div>
-                                        <div className="absolute bottom-6 left-6 text-left">
-                                            <p className="text-[8px] font-black uppercase tracking-[0.4em] text-blue-500 mb-1">Office Portal</p>
-                                            <p className="text-sm font-black uppercase tracking-widest italic opacity-80">DC TECH AND ART SERVICES</p>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+                                        <div className="absolute bottom-8 left-10 text-left">
+                                            <div className="flex items-center space-x-3 mb-2">
+                                                <div className="h-2 w-2 rounded-full bg-cyan-500 animate-pulse"></div>
+                                                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-600">System Active</p>
+                                            </div>
+                                            <p className="text-xl font-black uppercase tracking-widest italic opacity-90 leading-tight text-slate-900">DC TECH OPERATIONS</p>
                                         </div>
                                     </div>
                                 </div>
@@ -342,68 +408,74 @@ function App() {
                 )}
 
                 {view === 'enrollment' && (
-                    <div className="glass p-10 rounded-[2.5rem] border border-white/5 animate-fade-in">
-                        <div className="mb-8 text-center">
-                            <h2 className="text-3xl font-black uppercase tracking-tighter italic">Fill this form</h2>
-                            <p className="text-gray-500 text-[10px] font-bold uppercase tracking-widest mt-2">Please complete these details to Clock In</p>
+                    <div className="glass-card p-12 animate-fade-in relative z-10">
+                        <div className="mb-12 text-center">
+                            <h2 className="text-4xl font-black uppercase tracking-tighter italic mb-4">Clocking Protocol</h2>
+                            <p className="text-gray-500 text-[10px] font-black uppercase tracking-[0.4em] opacity-60">Authentication & Assignment</p>
                         </div>
 
-                        <form onSubmit={markAttendance} className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Work Location</label>
-                                    <select
-                                        required
-                                        value={enrollmentData.location}
-                                        onChange={(e) => setEnrollmentData({ ...enrollmentData, location: e.target.value })}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all appearance-none"
-                                    >
-                                        <option value="" disabled className="bg-slate-900">Select Location</option>
-                                        <option value="Main Office" className="bg-slate-900">Main Office</option>
-                                        <option value="Remote / Home" className="bg-slate-900">Remote / Home</option>
-                                        <option value="On-Site Visit" className="bg-slate-900">On-Site Visit</option>
-                                    </select>
+                        <form onSubmit={markAttendance} className="space-y-8">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="space-y-3">
+                                    <label className="block text-[10px] font-black text-cyan-600 uppercase tracking-[0.3em] ml-2">Assigned Location</label>
+                                    <div className="relative">
+                                        <select
+                                            required
+                                            value={enrollmentData.location}
+                                            onChange={(e) => setEnrollmentData({ ...enrollmentData, location: e.target.value })}
+                                            className="input-field appearance-none py-4 pr-12"
+                                        >
+                                            <option value="" disabled>Select Facility</option>
+                                            <option value="Main Office">Main Office / HQ</option>
+                                            <option value="Remote / Home">Digital / Remote</option>
+                                            <option value="On-Site Visit">External Client Site</option>
+                                        </select>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 text-slate-400 text-xs">▼</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Current Shift</label>
-                                    <select
-                                        required
-                                        value={enrollmentData.shift}
-                                        onChange={(e) => setEnrollmentData({ ...enrollmentData, shift: e.target.value })}
-                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all appearance-none"
-                                    >
-                                        <option value="" disabled className="bg-slate-900">Select Shift</option>
-                                        <option value="Morning (8am - 4pm)" className="bg-slate-900">Morning (8am - 4pm)</option>
-                                        <option value="Afternoon (2pm - 10pm)" className="bg-slate-900">Afternoon (2pm - 10pm)</option>
-                                        <option value="Night (10pm - 6am)" className="bg-slate-900">Night (10pm - 6am)</option>
-                                    </select>
+                                <div className="space-y-3">
+                                    <label className="block text-[10px] font-black text-cyan-600 uppercase tracking-[0.3em] ml-2">Time Allocation</label>
+                                    <div className="relative">
+                                        <select
+                                            required
+                                            value={enrollmentData.shift}
+                                            onChange={(e) => setEnrollmentData({ ...enrollmentData, shift: e.target.value })}
+                                            className="input-field appearance-none py-4 pr-12"
+                                        >
+                                            <option value="" disabled>Select Shift</option>
+                                            <option value="Morning (8am - 4pm)">Standard (8am - 4pm)</option>
+                                            <option value="Afternoon (2pm - 10pm)">Mid-Shift (2pm - 10pm)</option>
+                                            <option value="Night (10pm - 6am)">Overnight (10pm - 6am)</option>
+                                        </select>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 text-slate-400 text-xs">▼</div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div>
-                                <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">Work Summary</label>
+                            <div className="space-y-3">
+                                <label className="block text-[10px] font-black text-cyan-600 uppercase tracking-[0.3em] ml-2">Operational Summary</label>
                                 <textarea
                                     required
                                     value={enrollmentData.summary}
                                     onChange={(e) => setEnrollmentData({ ...enrollmentData, summary: e.target.value })}
-                                    placeholder="Briefly summarize your planned tasks for today..."
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:border-blue-500 outline-none transition-all h-24 resize-none"
+                                    placeholder="Execute clear reporting on planned tasks..."
+                                    className="input-field h-32 resize-none py-4"
                                 />
                             </div>
 
-                            <div className="flex gap-4 pt-4">
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-8">
                                 <button
                                     type="button"
                                     onClick={() => setView('home')}
-                                    className="flex-1 bg-white/5 hover:bg-white/10 text-gray-400 font-black py-4 rounded-[1.5rem] uppercase tracking-widest text-[10px] transition-all cursor-pointer"
+                                    className="md:col-span-1 bg-slate-50 hover:bg-slate-100 text-slate-400 font-black py-5 rounded-2xl uppercase tracking-[0.2em] text-[10px] transition-all cursor-pointer border border-slate-100 active:scale-95"
                                 >
-                                    Cancel
+                                    Abort
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-[2] bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-[1.5rem] uppercase tracking-widest text-[10px] transition-all shadow-lg shadow-blue-500/20 cursor-pointer"
+                                    className="md:col-span-2 btn-primary py-5 rounded-2xl uppercase tracking-[0.3em] text-[10px]"
                                 >
-                                    Submit and Verify
+                                    Confirm Verified Clock-In
                                 </button>
                             </div>
                         </form>
@@ -411,24 +483,28 @@ function App() {
                 )}
 
                 {view === 'services' && (
-                    <div className="bg-white/5 rounded-[2.5rem] p-10 border border-white/5 animate-fade-in">
-                        <div className="mb-10 text-center">
-                            <h2 className="text-4xl font-black italic tracking-tighter uppercase mb-2">Capabilities</h2>
-                            <div className="h-1 w-20 bg-blue-600 mx-auto rounded-full"></div>
+                    <div className="animate-fade-in space-y-12">
+                        <div className="text-center">
+                            <h2 className="text-5xl font-black italic tracking-tighter uppercase mb-2 text-slate-900">Capabilities</h2>
+                            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400 opacity-60">Professional Spectrum</p>
+                            <div className="h-1.5 w-24 bg-gradient-to-r from-cyan-600 to-cyan-400 mx-auto rounded-full mt-6"></div>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[
-                                { title: '3D & 2D Installation', icon: <Layers />, desc: 'Expert physical branding and technical mountings.' },
-                                { title: 'Graphic Design', icon: <Palette />, desc: 'Stunning visual identities and digital art solutions.' },
-                                { title: 'Fabrications', icon: <Hammer />, desc: 'Custom construction and specialized structural work.' },
-                                { title: 'Picture Frames', icon: <Image />, desc: 'Premium custom framing for art and photography.' },
-                                { title: 'Logo Backdrops', icon: <Monitor />, desc: 'Stage and office branding for maximum impact.' },
-                                { title: 'Indoor Decorations', icon: <Home />, desc: 'Bespoke interior styling and corporate aesthetics.' }
+                                { title: '3D Installation', icon: <Layers />, desc: 'Physical branding and technical precision mountings.' },
+                                { title: 'Graphic Design', icon: <Palette />, desc: 'Modern visual identities and sleek digital solutions.' },
+                                { title: 'Fabrications', icon: <Hammer />, desc: 'Custom construction with high-end structural finish.' },
+                                { title: 'Framing Art', icon: <Image />, desc: 'Premium bespoke framing for elite art pieces.' },
+                                { title: 'Digital Media', icon: <Monitor />, desc: 'Corporate presentation and staging backdrops.' },
+                                { title: 'Interior Styling', icon: <Home />, desc: 'Bespoke corporate aesthetics and workspace art.' }
                             ].map((s, idx) => (
-                                <div key={idx} className="glass p-8 rounded-3xl hover:bg-white/10 transition-all cursor-default border border-white/5 group">
-                                    <div className="bg-blue-600 p-3 w-12 h-12 rounded-2xl mb-4 shadow-lg group-hover:scale-110 transition-transform">{s.icon}</div>
-                                    <h3 className="text-lg font-black uppercase tracking-tight mb-2 italic">{s.title}</h3>
-                                    <p className="text-[11px] text-gray-500 leading-relaxed font-bold">{s.desc}</p>
+                                <div key={idx} className="glass-card p-10 group cursor-default bg-white">
+                                    <div className="bg-cyan-500 p-4 w-14 h-14 rounded-2xl mb-6 shadow-xl group-hover:scale-110 transition-all group-hover:bg-cyan-400 relative">
+                                        <div className="absolute inset-0 bg-cyan-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <div className="relative text-white">{s.icon}</div>
+                                    </div>
+                                    <h3 className="text-xl font-black uppercase tracking-tight mb-3 italic text-slate-900">{s.title}</h3>
+                                    <p className="text-[11px] text-slate-400 leading-relaxed font-bold opacity-80">{s.desc}</p>
                                 </div>
                             ))}
                         </div>
@@ -436,34 +512,46 @@ function App() {
                 )}
 
                 {view === 'update' && (
-                    <div className="glass rounded-[2.5rem] overflow-hidden border border-white/5 animate-fade-in shadow-2xl">
-                        <div className="p-10 border-b border-white/5 bg-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-                            <h2 className="text-3xl font-black tracking-tighter uppercase italic">Activity Feed</h2>
-                            <div className="bg-blue-600 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-lg shadow-blue-600/20">{logs.length} RECORDS</div>
+                    <div className="glass-card overflow-hidden animate-fade-in shadow-2xl relative z-10 bg-white">
+                        <div className="p-12 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row justify-between items-center gap-6">
+                            <div>
+                                <h2 className="text-4xl font-black tracking-tighter uppercase italic leading-none text-slate-900">Duty Logs</h2>
+                                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 mt-2">Historical Operational Data</p>
+                            </div>
+                            <div className="bg-cyan-500 px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-cyan-500/20 text-white">
+                                {logs.length} RECORDS SECURED
+                            </div>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
+                                <thead>
+                                    <tr className="bg-slate-50">
+                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Date Range</th>
+                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Timestamp</th>
+                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 text-right">Status</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                     {logs.map((log) => (
-                                        <tr key={log.id} className="hover:bg-white/5 border-b border-white/5 last:border-0 transition-colors">
-                                            <td className="px-10 py-6">
-                                                <div className="flex items-center space-x-4">
-                                                    <div className="bg-blue-500/10 p-2 rounded-lg">
-                                                        <Calendar className="w-4 h-4 text-blue-400" />
+                                        <tr key={log.id} className="hover:bg-cyan-50 border-b border-slate-100 last:border-0 transition-all group">
+                                            <td className="px-12 py-8">
+                                                <div className="flex items-center space-x-5">
+                                                    <div className="bg-cyan-500/10 p-3 rounded-[1rem] group-hover:bg-cyan-500/20 transition-colors">
+                                                        <Calendar className="w-5 h-5 text-cyan-600" />
                                                     </div>
                                                     <div>
-                                                        <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Date</p>
-                                                        <p className="font-bold text-sm tracking-tight">{log.date}</p>
+                                                        <p className="font-extrabold text-lg tracking-tight text-slate-900">{log.date}</p>
+                                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Operational Cycle</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-10 py-6">
-                                                <p className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Time</p>
-                                                <p className="font-bold text-sm opacity-60 font-mono tracking-tighter">{log.time}</p>
+                                            <td className="px-12 py-8">
+                                                <p className="font-bold text-sm text-slate-500 font-mono tracking-tighter">{log.time}</p>
+                                                <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest mt-1">GMT Offset Sync</p>
                                             </td>
-                                            <td className="px-10 py-6 text-right">
-                                                <div className="inline-flex items-center space-x-2 bg-green-500/10 text-green-400 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] border border-green-500/20">
-                                                    <CheckCircle2 className="w-3 h-3" />
+                                            <td className="px-12 py-8 text-right">
+                                                <div className="inline-flex items-center space-x-3 bg-emerald-50 text-emerald-600 px-5 py-2.5 rounded-2xl text-[9px] font-black uppercase tracking-[0.3em] border border-emerald-100 shadow-sm">
+                                                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
                                                     <span>Verified</span>
                                                 </div>
                                             </td>
@@ -476,58 +564,82 @@ function App() {
                 )}
 
                 {view === 'settings' && (
-                    <div className="space-y-6 animate-fade-in">
-                        <div className="glass p-10 rounded-[3rem] border border-white/5">
-                            <h2 className="text-3xl font-black tracking-tighter uppercase mb-10 italic">Employee Hub</h2>
-                            <div className="grid gap-4">
-                                <div className="bg-white/5 p-8 rounded-3xl border border-white/5">
-                                    <div className="flex justify-between items-center mb-6">
-                                        <p className="text-[10px] font-black text-blue-500 uppercase tracking-[0.3em]">Official Profile</p>
+                    <div className="space-y-8 animate-fade-in relative z-10">
+                        <div className="glass-card p-12 bg-white">
+                            <h2 className="text-4xl font-black tracking-tighter uppercase mb-12 italic text-slate-900">Personnel Identity</h2>
+                            <div className="grid gap-6">
+                                <div className="bg-slate-50 p-10 rounded-[2.5rem] border border-slate-100 relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-100 blur-[80px] rounded-full opacity-50"></div>
+                                    <div className="flex justify-between items-center mb-10 relative z-10">
+                                        <div className="flex items-center space-x-3">
+                                            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                                            <p className="text-[10px] font-black text-cyan-600 uppercase tracking-[0.4em]">Official File</p>
+                                        </div>
                                         <button
                                             onClick={() => setIsEditing(!isEditing)}
-                                            className="text-[10px] font-black uppercase text-blue-400 border border-blue-400/30 px-3 py-1 rounded-full hover:bg-blue-400/10 transition-all"
+                                            className="text-[9px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 border border-slate-200 px-6 py-2.5 rounded-2xl hover:bg-white transition-all cursor-pointer"
                                         >
-                                            {isEditing ? 'Cancel' : 'Edit Profile'}
+                                            {isEditing ? 'Abort Edit' : 'Edit Credentials'}
                                         </button>
                                     </div>
 
                                     {isEditing ? (
-                                        <form onSubmit={handleUpdateProfile} className="space-y-4">
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <label className="text-[8px] uppercase text-gray-500 font-bold block mb-1">First Name</label>
-                                                    <input type="text" value={editData.firstName} onChange={(e) => setEditData({ ...editData, firstName: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm focus:border-blue-500 outline-none" required />
+                                        <form onSubmit={handleUpdateProfile} className="space-y-6 relative z-10">
+                                            <div className="grid grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-[9px] uppercase text-gray-500 font-black tracking-widest ml-2">Given Name</label>
+                                                    <input type="text" value={editData.firstName} onChange={(e) => setEditData({ ...editData, firstName: e.target.value })} className="input-field" required />
                                                 </div>
-                                                <div>
-                                                    <label className="text-[8px] uppercase text-gray-500 font-bold block mb-1">Last Name</label>
-                                                    <input type="text" value={editData.lastName} onChange={(e) => setEditData({ ...editData, lastName: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm focus:border-blue-500 outline-none" required />
+                                                <div className="space-y-2">
+                                                    <label className="text-[9px] uppercase text-gray-500 font-black tracking-widest ml-2">Surname</label>
+                                                    <input type="text" value={editData.lastName} onChange={(e) => setEditData({ ...editData, lastName: e.target.value })} className="input-field" required />
                                                 </div>
                                             </div>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <label className="text-[8px] uppercase text-gray-500 font-bold block mb-1">Phone</label>
-                                                    <input type="tel" value={editData.phone} onChange={(e) => setEditData({ ...editData, phone: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm focus:border-blue-500 outline-none" required />
+                                            <div className="grid grid-cols-2 gap-6">
+                                                <div className="space-y-2">
+                                                    <label className="text-[9px] uppercase text-gray-500 font-black tracking-widest ml-2">Contact Link</label>
+                                                    <input type="tel" value={editData.phone} onChange={(e) => setEditData({ ...editData, phone: e.target.value })} className="input-field" required />
                                                 </div>
-                                                <div>
-                                                    <label className="text-[8px] uppercase text-gray-500 font-bold block mb-1">Gender</label>
-                                                    <select value={editData.gender} onChange={(e) => setEditData({ ...editData, gender: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-sm focus:border-blue-500 outline-none appearance-none" required>
-                                                        <option value="Male">Male</option>
-                                                        <option value="Female">Female</option>
+                                                <div className="space-y-2">
+                                                    <label className="text-[9px] uppercase text-gray-500 font-black tracking-widest ml-2">Biological Tag</label>
+                                                    <select value={editData.gender} onChange={(e) => setEditData({ ...editData, gender: e.target.value })} className="input-field cursor-pointer appearance-none" required>
+                                                        <option value="Male" className="bg-slate-900">Male</option>
+                                                        <option value="Female" className="bg-slate-900">Female</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-all text-xs uppercase tracking-widest mt-2">Save Changes</button>
+                                            <button type="submit" className="btn-primary w-full py-4 text-xs uppercase tracking-[0.3em] font-black mt-4">Commit Updates</button>
                                         </form>
                                     ) : (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6">
-                                            <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Full Identity</p><p className="font-black text-lg uppercase tracking-tight">{userData ? `${userData.firstName} ${userData.lastName}` : '...'}</p></div>
-                                            <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Gender Identity</p><p className="font-black text-lg uppercase tracking-tight">{userData ? userData.gender : '...'}</p></div>
-                                            <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Registered Contact</p><p className="font-black text-lg uppercase tracking-tight">{userData ? userData.phone : '...'}</p></div>
-                                            <div><p className="text-[10px] text-gray-500 font-bold uppercase mb-1">Secure Email</p><p className="font-black text-lg lowercase tracking-tight opacity-50">{user.email}</p></div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10 relative z-10 text-slate-900">
+                                            <div>
+                                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Legal Full Identity</p>
+                                                <p className="font-black text-2xl uppercase tracking-tighter italic">{userData ? `${userData.firstName} ${userData.lastName}` : '...'}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Authentication Index</p>
+                                                <div className="px-4 py-2 bg-cyan-50 rounded-xl inline-block border border-cyan-100">
+                                                    <p className="font-bold text-xs text-cyan-600 lowercase">{user.email}</p>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Verified Link</p>
+                                                <p className="font-black text-lg uppercase tracking-widest">{userData ? userData.phone : '...'}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Assigned Tag</p>
+                                                <p className="font-black text-lg uppercase mb-1">{userData ? userData.gender : '...'}</p>
+                                                <div className="h-1.5 w-12 bg-cyan-500 rounded-full"></div>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
-                                <button onClick={handleLogout} className="bg-red-500/10 hover:bg-red-500/20 text-red-500 p-8 rounded-[2rem] font-black uppercase tracking-[0.3em] text-[10px] transition-all cursor-pointer border border-red-500/10">Terminate Current Session</button>
+                                <button onClick={handleLogout} className="bg-red-500/5 hover:bg-red-500/10 text-red-500 p-10 rounded-[2.5rem] font-black uppercase tracking-[0.4em] text-[10px] transition-all cursor-pointer border border-red-500/10 group mt-4">
+                                    <div className="flex flex-col items-center space-y-3">
+                                        <LogOut className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+                                        <span>Terminate Core Session</span>
+                                    </div>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -535,17 +647,27 @@ function App() {
             </main>
 
             {/* Bottom Nav */}
-            <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-[92%] max-w-lg glass px-6 py-5 rounded-[2.5rem] flex items-center justify-between shadow-2xl border border-white/5 z-40 bg-[#0f172a]/90 backdrop-blur-3xl">
+            <div className="fixed bottom-10 left-1/2 -translate-x-1/2 w-[90%] max-w-lg glass-card px-4 py-4 rounded-[2.5rem] flex items-center justify-between shadow-2xl z-40 bg-white/90 backdrop-blur-3xl border border-slate-100">
                 {[
-                    { icon: <Calendar className="w-6 h-6" />, label: 'Home', view: 'home' },
+                    { icon: <Calendar className="w-6 h-6" />, label: 'Hub', view: 'home' },
                     { icon: <Briefcase className="w-6 h-6" />, label: 'Services', view: 'services' },
-                    { icon: <History className="w-6 h-6" />, label: 'Update', view: 'update' },
-                    { icon: <Settings className="w-6 h-6" />, label: 'Settings', view: 'settings' }
+                    { icon: <History className="w-6 h-6" />, label: 'Logs', view: 'update' },
+                    { icon: <Settings className="w-6 h-6" />, label: 'Persona', view: 'settings' }
                 ].map((item) => (
-                    <button key={item.label} onClick={() => setView(item.view)} className={`flex flex-col items-center space-y-1 relative transition-all duration-300 cursor-pointer ${view === item.view ? 'text-blue-500 scale-110' : 'text-gray-500 opacity-50 hover:opacity-100 hover:text-white'}`}>
+                    <button 
+                        key={item.label} 
+                        onClick={() => setView(item.view)} 
+                        className={`flex flex-col items-center space-y-1 relative transition-all duration-300 px-6 py-2 rounded-2xl cursor-pointer ${
+                            view === item.view 
+                            ? 'text-cyan-600 bg-cyan-50' 
+                            : 'text-slate-400 hover:text-slate-900'
+                        }`}
+                    >
                         {item.icon}
-                        <span className="text-[8px] font-black uppercase tracking-[0.2em]">{item.label}</span>
-                        {view === item.view && <div className="absolute -top-4 w-12 h-1 bg-blue-500 rounded-full shadow-[0_0_20px_#f59e0b]"></div>}
+                        <span className="text-[7px] font-black uppercase tracking-[0.4em]">{item.label}</span>
+                        {view === item.view && (
+                            <div className="absolute -bottom-1 w-6 h-1 bg-cyan-500 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.4)]"></div>
+                        )}
                     </button>
                 ))}
             </div>
