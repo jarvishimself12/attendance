@@ -1,4 +1,4 @@
-import { Calendar, Check, CheckCircle2, Eye, EyeOff, Hammer, History, Home, Image, Layers, LogIn, LogOut, Mail, Monitor, Palette, Settings } from 'lucide-react';
+import { Briefcase, Calendar, Check, CheckCircle2, Eye, EyeOff, Hammer, History, Home, Image, Layers, LogIn, LogOut, Mail, Monitor, Palette, Settings } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 // Firebase Imports
