@@ -13,6 +13,7 @@ import {
     collection,
     doc,
     getDoc,
+    limit,
     onSnapshot,
     orderBy,
     query,
@@ -32,6 +33,10 @@ function App() {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [loading, setLoading] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
+    const [globalLogs, setGlobalLogs] = useState([]);
+    const [announcements, setAnnouncements] = useState([]);
+    const [stats, setStats] = useState({ activeToday: 0, totalProjects: 12 });
+    const [newMsg, setNewMsg] = useState('');
 
     // Form States
     const [firstName, setFirstName] = useState('');
@@ -108,6 +113,61 @@ function App() {
             return () => unsubscribe();
         }
     }, [user]);
+
+    // 4. Global Activity Pulse (Top 5 clock-ins)
+    useEffect(() => {
+        if (user) {
+            const q = query(
+                collection(db, "attendance"),
+                orderBy("timestamp", "desc"),
+                limit(5)
+            );
+            const unsubscribe = onSnapshot(q, (snapshot) => {
+                const fetched = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setGlobalLogs(fetched);
+                
+                // Calculate quick stats (e.g., active today)
+                const today = new Date().toLocaleDateString();
+                const uniqueUsersToday = new Set(
+                    fetched.filter(log => log.date === today).map(log => log.userEmail)
+                ).size;
+                setStats(prev => ({ ...prev, activeToday: uniqueUsersToday }));
+            });
+            return () => unsubscribe();
+        }
+    }, [user]);
+
+    // 5. Global Announcements Pulse
+    useEffect(() => {
+        if (user) {
+            const q = query(
+                collection(db, "announcements"),
+                orderBy("timestamp", "desc"),
+                limit(3)
+            );
+            const unsubscribe = onSnapshot(q, (snapshot) => {
+                setAnnouncements(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+            });
+            return () => unsubscribe();
+        }
+    }, [user]);
+
+    const sendAnnouncement = async (e) => {
+        e.preventDefault();
+        if (!newMsg.trim()) return;
+        try {
+            await addDoc(collection(db, "announcements"), {
+                text: newMsg,
+                author: userData ? `${userData.firstName} ${userData.lastName}` : user.email,
+                timestamp: Date.now(),
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString()
+            });
+            setNewMsg('');
+        } catch (err) {
+            console.error("Announcement failed:", err);
+        }
+    };
 
     const handleAuth = async (e) => {
         e.preventDefault();
@@ -345,13 +405,29 @@ function App() {
                         <div className="glass-card p-12 relative overflow-hidden group bg-white">
                             <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-100/50 blur-[100px] rounded-full -translate-x-12 -translate-y-12 group-hover:bg-cyan-200/50 transition-all duration-700"></div>
                             <h1 className="text-6xl font-black tracking-tighter mb-4 italic leading-tight text-slate-900">
-                                Morning, <span className="text-cyan-500">{userData ? userData.firstName : 'User'}</span>.
+                                Welcome, <span className="text-cyan-500">{userData ? userData.firstName : 'User'}</span>.
                             </h1>
                             <div className="flex items-center space-x-3 opacity-40">
                                 <div className="h-[2px] w-8 bg-slate-900"></div>
                                 <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-900">Operational Readiness Status</p>
                             </div>
                         </div>
+
+                        {/* Announcements Bar - Firebase Dynamic Content */}
+                        {announcements.length > 0 && (
+                            <div className="bg-cyan-600 p-4 rounded-3xl flex items-center justify-between px-8 animate-fade-in shadow-xl shadow-cyan-600/20">
+                                <div className="flex items-center space-x-4">
+                                    <div className="bg-white/20 p-2 rounded-xl">
+                                        <Monitor className="w-4 h-4 text-white" />
+                                    </div>
+                                    <p className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">
+                                        <span className="opacity-60 mr-2">CHIEF OPS:</span>
+                                        "{announcements[0].text}"
+                                    </p>
+                                </div>
+                                <span className="text-[8px] font-black text-white/40 uppercase">{announcements[0].time}</span>
+                            </div>
+                        )}
 
                         <div className="glass-card p-14 text-center bg-white">
                             <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400 mb-12">Security Checkpoint</h2>
@@ -384,25 +460,96 @@ function App() {
                                             <p className="text-[8px] font-black uppercase tracking-[0.4em] opacity-60 group-hover:opacity-100 transition-opacity">Biometric Confirmation Required</p>
                                         </div>
                                     </button>
-
-                                    {/* Visual Tech Panel */}
-                                    <div className="relative w-full max-w-lg aspect-[21/9] rounded-[3rem] overflow-hidden group shadow-2xl border border-white/5">
-                                        <img
-                                            src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200"
-                                            alt="Security Grid"
-                                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100 opacity-30"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
-                                        <div className="absolute bottom-8 left-10 text-left">
-                                            <div className="flex items-center space-x-3 mb-2">
-                                                <div className="h-2 w-2 rounded-full bg-cyan-500 animate-pulse"></div>
-                                                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-cyan-600">System Active</p>
-                                            </div>
-                                            <p className="text-xl font-black uppercase tracking-widest italic opacity-90 leading-tight text-slate-900">DC TECH OPERATIONS</p>
-                                        </div>
-                                    </div>
                                 </div>
                             )}
+
+                            {/* Live Team Pulse - New Firebase Feature */}
+                            <div className="mt-16 pt-12 border-t border-slate-100">
+                                <div className="flex justify-between items-center mb-8">
+                                    <div className="text-left">
+                                        <p className="text-[10px] font-black text-cyan-600 uppercase tracking-[0.4em] mb-1">Live Team Pulse</p>
+                                        <h3 className="text-2xl font-black tracking-tighter uppercase italic text-slate-900">Active Personnel</h3>
+                                    </div>
+                                    <div className="flex items-center space-x-2 bg-slate-50 px-4 py-2 rounded-xl">
+                                        <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stats.activeToday} ONLINE</span>
+                                    </div>
+                                </div>
+                                
+                                <div className="flex flex-wrap gap-3">
+                                    {globalLogs.length > 0 ? (
+                                        globalLogs.map((log) => (
+                                            <div key={log.id} className="flex items-center space-x-3 bg-slate-50 p-2 pr-5 rounded-2xl border border-slate-100 group hover:border-cyan-200 transition-all">
+                                                <div className="w-8 h-8 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-[10px] font-black text-cyan-600 shadow-sm group-hover:scale-110 transition-transform">
+                                                    {log.userName ? log.userName.split(' ').map(n => n[0]).join('') : '?'}
+                                                </div>
+                                                <div className="text-left">
+                                                    <p className="text-[9px] font-black text-slate-900 leading-tight">{log.userName}</p>
+                                                    <p className="text-[7px] font-bold text-slate-400 uppercase tracking-widest">{log.time}</p>
+                                                </div>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">Waiting for incoming signals...</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Operations Monitor Section */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="glass-card p-10 bg-white">
+                                <h3 className="text-lg font-black uppercase italic tracking-tighter mb-6 text-slate-900">Infrastructure Health</h3>
+                                <div className="space-y-6">
+                                    {[
+                                        { label: 'Firebase Real-time Sync', status: 'Operational', color: 'bg-emerald-500' },
+                                        { label: 'Biometric Gateway', status: 'Active', color: 'bg-emerald-500' },
+                                        { label: 'Asset DB Cluster', status: 'Optimal', color: 'bg-cyan-500' }
+                                    ].map((item, i) => (
+                                        <div key={i} className="flex justify-between items-center">
+                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.label}</span>
+                                            <div className="flex items-center space-x-2">
+                                                <span className="text-[8px] font-black text-slate-900 uppercase">{item.status}</span>
+                                                <div className={`h-1.5 w-1.5 rounded-full ${item.color}`}></div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="glass-card p-10 bg-white relative overflow-hidden group">
+                                <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                <h3 className="text-lg font-black uppercase italic tracking-tighter mb-6 text-slate-900">Art Hub Status</h3>
+                                <div className="flex flex-col h-full justify-between">
+                                    <div>
+                                        <div className="flex items-center justify-between mb-2">
+                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Commissions</p>
+                                            <p className="text-lg font-black text-cyan-500">{stats.totalProjects}</p>
+                                        </div>
+                                        <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                                            <div className="bg-cyan-500 h-full w-[65%]" />
+                                        </div>
+                                    </div>
+                                    <button className="text-[9px] font-black uppercase tracking-[0.3em] text-cyan-600 hover:text-cyan-700 mt-8 flex items-center space-x-2">
+                                        <span>View Production Schedule</span>
+                                        <span className="text-xs">→</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Broadcast Message Input - New Interaction Point */}
+                        <div className="glass-card p-10 bg-white">
+                            <form onSubmit={sendAnnouncement} className="flex gap-4">
+                                <input 
+                                    type="text" 
+                                    value={newMsg}
+                                    onChange={(e) => setNewMsg(e.target.value)}
+                                    placeholder="Enter global operational update..." 
+                                    className="input-field flex-1"
+                                />
+                                <button type="submit" className="btn-primary w-fit whitespace-nowrap">Broadcast Update</button>
+                            </form>
                         </div>
                     </div>
                 )}
