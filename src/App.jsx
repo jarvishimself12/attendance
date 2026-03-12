@@ -401,74 +401,85 @@ function App() {
 
             <main className="max-w-4xl mx-auto p-6 animate-fade-in">
                 {view === 'home' && (
-                    <div className="space-y-10">
-                        <div className="glass-card p-12 relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-100/50 blur-[100px] rounded-full -translate-x-12 -translate-y-12 group-hover:bg-cyan-200/50 transition-all duration-700"></div>
-                            <h1 className="text-6xl font-black tracking-tighter mb-4 italic leading-tight text-white">
-                                Welcome, <span className="text-cyan-500">{userData ? userData.firstName : 'User'}</span>.
-                            </h1>
-                            <div className="flex items-center space-x-3 opacity-40">
-                                <div className="h-[2px] w-8 bg-slate-900"></div>
-                                <p className="text-xs font-black uppercase tracking-[0.3em] text-white">Operational Readiness Status</p>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                        {/* Left Pane - Hero Image */}
+                        <div className="lg:col-span-4 hidden lg:block h-full">
+                            <div className="glass-card h-full min-h-[500px] overflow-hidden relative group">
+                                <img 
+                                    src="./assets/employee-hero.png" 
+                                    alt="Professional Hero" 
+                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#064e3b]/80 via-transparent to-transparent"></div>
+                                <div className="absolute bottom-8 left-8 right-8">
+                                    <p className="text-sm font-black uppercase tracking-[0.4em] text-white/60 mb-2">Art Hub</p>
+                                    <h2 className="text-2xl font-black italic text-white leading-tight uppercase">Elevating Creative <span className="text-yellow-400">Standard</span>.</h2>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Announcements Bar - Firebase Dynamic Content */}
-                        {announcements.length > 0 && (
-                            <div className="bg-cyan-600 p-4 rounded-3xl flex items-center justify-between px-8 animate-fade-in shadow-xl shadow-cyan-600/20">
-                                <div className="flex items-center space-x-4">
-                                    <div className="bg-white/20 p-2 rounded-xl">
-                                        <Monitor className="w-4 h-4 text-white" />
-                                    </div>
-                                    <p className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">
-                                        <span className="opacity-60 mr-2">CHIEF OPS:</span>
-                                        "{announcements[0].text}"
-                                    </p>
+                        {/* Right Pane - Main Content */}
+                        <div className="lg:col-span-8 space-y-10">
+                            <div className="glass-card p-12 relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 w-80 h-80 bg-green-500/10 blur-[100px] rounded-full -translate-x-12 -translate-y-12 group-hover:bg-green-400/20 transition-all duration-700"></div>
+                                <h1 className="text-6xl font-black tracking-tighter mb-4 italic leading-tight text-white">
+                                    Welcome, <span className="text-yellow-400">{userData ? userData.firstName : 'User'}</span>.
+                                </h1>
+                                <div className="flex items-center space-x-3 opacity-40">
+                                    <div className="h-[2px] w-8 bg-green-400"></div>
+                                    <p className="text-xs font-black uppercase tracking-[0.3em] text-white">Operational Readiness Status</p>
                                 </div>
-                                <span className="text-[8px] font-black text-white/40 uppercase">{announcements[0].time}</span>
                             </div>
-                        )}
 
-                        <div className="glass-card p-14 text-center">
-                            {/* Attendance Action Section */}
-                            
-                            {isMarkedToday ? (
-                                <div className="animate-fade-in">
-                                    <div className="bg-emerald-50 border border-emerald-100 p-14 rounded-[3rem] transition-all duration-700">
-                                        <div className="bg-emerald-500 p-5 rounded-3xl w-24 h-24 flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-emerald-500/20">
-                                            <Check className="w-12 h-12 text-white" />
+                            {/* Announcements Bar */}
+                            {announcements.length > 0 && (
+                                <div className="bg-emerald-700 p-4 rounded-3xl flex items-center justify-between px-8 animate-fade-in shadow-xl shadow-emerald-900/40">
+                                    <div className="flex items-center space-x-4">
+                                        <div className="bg-white/20 p-2 rounded-xl">
+                                            <Monitor className="w-4 h-4 text-white" />
                                         </div>
-                                        <p className="text-emerald-600 font-black text-3xl uppercase tracking-tighter italic">Identity Verified</p>
-                                        <div className="flex items-center justify-center space-x-4 mt-6">
-                                            <div className="px-5 py-2 bg-white rounded-full border border-emerald-100 shadow-sm">
-                                                <p className="text-emerald-500 font-bold text-[10px] uppercase tracking-widest">Clock-In: {logs[0]?.time}</p>
-                                            </div>
-                                        </div>
+                                        <p className="text-[10px] font-black text-white uppercase tracking-[0.2em] italic">
+                                            <span className="opacity-60 mr-2">CHIEF OPS:</span>
+                                            "{announcements[0].text}"
+                                        </p>
                                     </div>
-                                </div>
-                            ) : (
-                                <div className="flex flex-col items-center space-y-12">
-                                    <button 
-                                        onClick={() => setView('enrollment')} 
-                                        className="btn-primary px-20 py-10 rounded-[2.5rem] group"
-                                    >
-                                        <div className="flex flex-col items-center space-y-2">
-                                            <div className="flex items-center space-x-4">
-                                                <CheckCircle2 className="w-8 h-8" />
-                                                <span className="text-2xl uppercase tracking-tighter italic">Authorize Duty</span>
-                                            </div>
-                                            <p className="text-[8px] font-black uppercase tracking-[0.4em] opacity-60 group-hover:opacity-100 transition-opacity">Biometric Confirmation Required</p>
-                                        </div>
-                                    </button>
+                                    <span className="text-[8px] font-black text-white/40 uppercase">{announcements[0].time}</span>
                                 </div>
                             )}
-
-
+                            <div className="glass-card p-14 text-center">
+                                {/* Attendance Action Section */}
+                                {isMarkedToday ? (
+                                    <div className="animate-fade-in">
+                                        <div className="bg-emerald-900/20 border border-emerald-500/20 p-14 rounded-[3rem] transition-all duration-700">
+                                            <div className="bg-emerald-500 p-5 rounded-3xl w-24 h-24 flex items-center justify-center mx-auto mb-8 shadow-2xl shadow-emerald-500/20">
+                                                <Check className="w-12 h-12 text-white" />
+                                            </div>
+                                            <p className="text-emerald-400 font-black text-3xl uppercase tracking-tighter italic">Identity Verified</p>
+                                            <div className="flex items-center justify-center space-x-4 mt-6">
+                                                <div className="px-5 py-2 bg-white/10 rounded-full border border-emerald-500/20 shadow-sm">
+                                                    <p className="text-emerald-400 font-bold text-[10px] uppercase tracking-widest">Clock-In: {logs[0]?.time}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col items-center space-y-12">
+                                        <button 
+                                            onClick={() => setView('enrollment')} 
+                                            className="btn-primary px-20 py-10 rounded-[2.5rem] group bg-gradient-to-r from-emerald-600 to-green-600 shadow-emerald-900/50"
+                                        >
+                                            <div className="flex flex-col items-center space-y-2">
+                                                <div className="flex items-center space-x-4">
+                                                    <CheckCircle2 className="w-8 h-8" />
+                                                    <span className="text-2xl uppercase tracking-tighter italic">Authorize Duty</span>
+                                                </div>
+                                                <p className="text-[8px] font-black uppercase tracking-[0.4em] opacity-60 group-hover:opacity-100 transition-opacity">Verification Required</p>
+                                            </div>
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-
-
-
-
                     </div>
                 )}
 
