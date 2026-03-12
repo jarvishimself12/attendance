@@ -249,7 +249,7 @@ function App() {
 
     if (showSplash || loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center p-4 bg-white overflow-hidden relative">
+            <div className="min-h-screen flex items-center justify-center p-4 overflow-hidden relative">
                 {/* Background Glows */}
                 <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-cyan-100 blur-[100px] animate-pulse"></div>
                 <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-cyan-50 blur-[100px] animate-pulse delay-700"></div>
@@ -259,11 +259,11 @@ function App() {
                         <div className="absolute inset-0 bg-cyan-500/10 blur-2xl rounded-full scale-150 animate-pulse"></div>
                         <Calendar className="w-20 h-20 text-cyan-500 relative animate-bounce" />
                     </div>
-                    <h1 className="text-4xl font-black text-slate-900 tracking-[0.3em] uppercase mb-2 animate-fade-in italic">
+                    <h1 className="text-4xl font-black text-white tracking-[0.3em] uppercase mb-2 animate-fade-in italic">
                         DC <span className="text-cyan-500">TECH</span>
                     </h1>
                     <div className="h-1.5 w-16 bg-cyan-500 mx-auto rounded-full mb-3"></div>
-                    <p className="text-slate-400 text-[10px] font-black tracking-[0.5em] uppercase opacity-70">Art Services</p>
+                    <p className="text-slate-300 text-[10px] font-black tracking-[0.5em] uppercase opacity-70">Art Services</p>
                 </div>
             </div>
         );
@@ -278,15 +278,15 @@ function App() {
                     <div className="absolute bottom-[-10%] left-[-10%] w-[40%] aspect-square bg-cyan-600/10 blur-[120px] rounded-full"></div>
                 </div>
 
-                <div className="glass-card p-10 w-full max-w-md relative z-10 animate-fade-in bg-white/80 border-slate-100">
+                <div className="glass-card p-10 w-full max-w-md relative z-10 animate-fade-in border-white/10">
                     <div className="flex flex-col items-center mb-10">
                         <div className="bg-cyan-500/10 p-5 rounded-2xl mb-6 border border-cyan-500/5">
                             <LogIn className="w-8 h-8 text-cyan-500" />
                         </div>
-                        <h1 className="text-4xl font-black tracking-tight text-center italic text-slate-900">
+                        <h1 className="text-4xl font-black tracking-tight text-center italic text-white">
                             DC <span className="text-cyan-500">TECH</span>
                         </h1>
-                        <p className="text-slate-400 mt-2 text-xs font-bold uppercase tracking-widest opacity-60">Employee Portal</p>
+                        <p className="text-slate-300 mt-2 text-xs font-bold uppercase tracking-widest opacity-60">Employee Portal</p>
                     </div>
 
                     <form onSubmit={handleAuth} className="space-y-5">
@@ -355,14 +355,14 @@ function App() {
     return (
         <div className="min-h-screen text-white pb-28">
             {/* Top Header */}
-            <nav className="glass sticky top-0 z-30 px-6 py-4 flex justify-between items-center bg-white/80 backdrop-blur-2xl border-b border-slate-100">
+            <nav className="glass sticky top-0 z-30 px-6 py-4 flex justify-between items-center backdrop-blur-2xl border-b border-white/10">
                 <div className="flex items-center space-x-3">
                     <div className="bg-cyan-500 p-2.5 rounded-[1rem] shadow-lg shadow-cyan-500/20">
                         <Calendar className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <span className="text-xl font-black tracking-tighter block leading-none italic text-slate-900">DC <span className="text-cyan-500">TECH</span></span>
-                        <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-400">Employee Portal</span>
+                        <span className="text-xl font-black tracking-tighter block leading-none italic text-white">DC <span className="text-cyan-500">TECH</span></span>
+                        <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-300">Employee Portal</span>
                     </div>
                 </div>
 
@@ -377,7 +377,7 @@ function App() {
                             </span>
                         </div>
                         <div className="hidden md:block pr-2 text-left">
-                            <p className="text-[10px] font-black uppercase tracking-tighter leading-none text-slate-900">
+                            <p className="text-[10px] font-black uppercase tracking-tighter leading-none text-white">
                                 {userData ? userData.firstName : 'User'}
                             </p>
                             <p className="text-[8px] text-cyan-500 font-bold uppercase tracking-widest opacity-80">Verified</p>
@@ -402,14 +402,14 @@ function App() {
             <main className="max-w-4xl mx-auto p-6 animate-fade-in">
                 {view === 'home' && (
                     <div className="space-y-10">
-                        <div className="glass-card p-12 relative overflow-hidden group bg-white">
+                        <div className="glass-card p-12 relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-100/50 blur-[100px] rounded-full -translate-x-12 -translate-y-12 group-hover:bg-cyan-200/50 transition-all duration-700"></div>
-                            <h1 className="text-6xl font-black tracking-tighter mb-4 italic leading-tight text-slate-900">
+                            <h1 className="text-6xl font-black tracking-tighter mb-4 italic leading-tight text-white">
                                 Welcome, <span className="text-cyan-500">{userData ? userData.firstName : 'User'}</span>.
                             </h1>
                             <div className="flex items-center space-x-3 opacity-40">
                                 <div className="h-[2px] w-8 bg-slate-900"></div>
-                                <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-900">Operational Readiness Status</p>
+                                <p className="text-xs font-black uppercase tracking-[0.3em] text-white">Operational Readiness Status</p>
                             </div>
                         </div>
 
@@ -429,8 +429,8 @@ function App() {
                             </div>
                         )}
 
-                        <div className="glass-card p-14 text-center bg-white">
-                            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400 mb-12">Security Checkpoint</h2>
+                        <div className="glass-card p-14 text-center">
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-300 mb-12">Security Checkpoint</h2>
                             
                             {isMarkedToday ? (
                                 <div className="animate-fade-in">
@@ -464,13 +464,13 @@ function App() {
                             )}
 
                             {/* Live Team Pulse - New Firebase Feature */}
-                            <div className="mt-16 pt-12 border-t border-slate-100">
+                            <div className="mt-16 pt-12 border-t border-white/10">
                                 <div className="flex justify-between items-center mb-8">
                                     <div className="text-left">
                                         <p className="text-[10px] font-black text-cyan-600 uppercase tracking-[0.4em] mb-1">Live Team Pulse</p>
-                                        <h3 className="text-2xl font-black tracking-tighter uppercase italic text-slate-900">Active Personnel</h3>
+                                        <h3 className="text-2xl font-black tracking-tighter uppercase italic text-white">Active Personnel</h3>
                                     </div>
-                                    <div className="flex items-center space-x-2 bg-slate-50 px-4 py-2 rounded-xl">
+                                    <div className="flex items-center space-x-2 bg-white/5 px-4 py-2 rounded-xl">
                                         <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
                                         <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stats.activeToday} ONLINE</span>
                                     </div>
@@ -479,18 +479,18 @@ function App() {
                                 <div className="flex flex-wrap gap-3">
                                     {globalLogs.length > 0 ? (
                                         globalLogs.map((log) => (
-                                            <div key={log.id} className="flex items-center space-x-3 bg-slate-50 p-2 pr-5 rounded-2xl border border-slate-100 group hover:border-cyan-200 transition-all">
-                                                <div className="w-8 h-8 bg-white border border-slate-100 rounded-xl flex items-center justify-center text-[10px] font-black text-cyan-600 shadow-sm group-hover:scale-110 transition-transform">
+                                            <div key={log.id} className="flex items-center space-x-3 bg-white/5 p-2 pr-5 rounded-2xl border border-white/10 group hover:border-cyan-200 transition-all">
+                                                <div className="w-8 h-8 bg-white border border-white/10 rounded-xl flex items-center justify-center text-[10px] font-black text-cyan-600 shadow-sm group-hover:scale-110 transition-transform">
                                                     {log.userName ? log.userName.split(' ').map(n => n[0]).join('') : '?'}
                                                 </div>
                                                 <div className="text-left">
-                                                    <p className="text-[9px] font-black text-slate-900 leading-tight">{log.userName}</p>
-                                                    <p className="text-[7px] font-bold text-slate-400 uppercase tracking-widest">{log.time}</p>
+                                                    <p className="text-[9px] font-black text-white leading-tight">{log.userName}</p>
+                                                    <p className="text-[7px] font-bold text-slate-300 uppercase tracking-widest">{log.time}</p>
                                                 </div>
                                             </div>
                                         ))
                                     ) : (
-                                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">Waiting for incoming signals...</p>
+                                        <p className="text-[10px] text-slate-300 font-bold uppercase tracking-widest italic">Waiting for incoming signals...</p>
                                     )}
                                 </div>
                             </div>
@@ -498,8 +498,8 @@ function App() {
 
                         {/* Operations Monitor Section */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="glass-card p-10 bg-white">
-                                <h3 className="text-lg font-black uppercase italic tracking-tighter mb-6 text-slate-900">Infrastructure Health</h3>
+                            <div className="glass-card p-10">
+                                <h3 className="text-lg font-black uppercase italic tracking-tighter mb-6 text-white">Infrastructure Health</h3>
                                 <div className="space-y-6">
                                     {[
                                         { label: 'Firebase Real-time Sync', status: 'Operational', color: 'bg-emerald-500' },
@@ -507,9 +507,9 @@ function App() {
                                         { label: 'Asset DB Cluster', status: 'Optimal', color: 'bg-cyan-500' }
                                     ].map((item, i) => (
                                         <div key={i} className="flex justify-between items-center">
-                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{item.label}</span>
+                                            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">{item.label}</span>
                                             <div className="flex items-center space-x-2">
-                                                <span className="text-[8px] font-black text-slate-900 uppercase">{item.status}</span>
+                                                <span className="text-[8px] font-black text-white uppercase">{item.status}</span>
                                                 <div className={`h-1.5 w-1.5 rounded-full ${item.color}`}></div>
                                             </div>
                                         </div>
@@ -517,16 +517,16 @@ function App() {
                                 </div>
                             </div>
 
-                            <div className="glass-card p-10 bg-white relative overflow-hidden group">
+                            <div className="glass-card p-10 relative overflow-hidden group">
                                 <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                <h3 className="text-lg font-black uppercase italic tracking-tighter mb-6 text-slate-900">Art Hub Status</h3>
+                                <h3 className="text-lg font-black uppercase italic tracking-tighter mb-6 text-white">Art Hub Status</h3>
                                 <div className="flex flex-col h-full justify-between">
                                     <div>
                                         <div className="flex items-center justify-between mb-2">
-                                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Commissions</p>
+                                            <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Active Commissions</p>
                                             <p className="text-lg font-black text-cyan-500">{stats.totalProjects}</p>
                                         </div>
-                                        <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                                        <div className="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
                                             <div className="bg-cyan-500 h-full w-[65%]" />
                                         </div>
                                     </div>
@@ -539,7 +539,7 @@ function App() {
                         </div>
 
                         {/* Broadcast Message Input - New Interaction Point */}
-                        <div className="glass-card p-10 bg-white">
+                        <div className="glass-card p-10">
                             <form onSubmit={sendAnnouncement} className="flex gap-4">
                                 <input 
                                     type="text" 
@@ -577,7 +577,7 @@ function App() {
                                             <option value="Remote / Home">Digital / Remote</option>
                                             <option value="On-Site Visit">External Client Site</option>
                                         </select>
-                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 text-slate-400 text-xs">▼</div>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 text-slate-300 text-xs">▼</div>
                                     </div>
                                 </div>
                                 <div className="space-y-3">
@@ -594,7 +594,7 @@ function App() {
                                             <option value="Afternoon (2pm - 10pm)">Mid-Shift (2pm - 10pm)</option>
                                             <option value="Night (10pm - 6am)">Overnight (10pm - 6am)</option>
                                         </select>
-                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 text-slate-400 text-xs">▼</div>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 text-slate-300 text-xs">▼</div>
                                     </div>
                                 </div>
                             </div>
@@ -614,7 +614,7 @@ function App() {
                                 <button
                                     type="button"
                                     onClick={() => setView('home')}
-                                    className="md:col-span-1 bg-slate-50 hover:bg-slate-100 text-slate-400 font-black py-5 rounded-2xl uppercase tracking-[0.2em] text-[10px] transition-all cursor-pointer border border-slate-100 active:scale-95"
+                                    className="md:col-span-1 bg-white/5 hover:bg-white/10 text-slate-300 font-black py-5 rounded-2xl uppercase tracking-[0.2em] text-[10px] transition-all cursor-pointer border border-white/10 active:scale-95"
                                 >
                                     Abort
                                 </button>
@@ -632,8 +632,8 @@ function App() {
                 {view === 'services' && (
                     <div className="animate-fade-in space-y-12">
                         <div className="text-center">
-                            <h2 className="text-5xl font-black italic tracking-tighter uppercase mb-2 text-slate-900">Capabilities</h2>
-                            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400 opacity-60">Professional Spectrum</p>
+                            <h2 className="text-5xl font-black italic tracking-tighter uppercase mb-2 text-white">Capabilities</h2>
+                            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-300 opacity-60">Professional Spectrum</p>
                             <div className="h-1.5 w-24 bg-gradient-to-r from-cyan-600 to-cyan-400 mx-auto rounded-full mt-6"></div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -650,8 +650,8 @@ function App() {
                                         <div className="absolute inset-0 bg-cyan-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                         <div className="relative text-white">{s.icon}</div>
                                     </div>
-                                    <h3 className="text-xl font-black uppercase tracking-tight mb-3 italic text-slate-900">{s.title}</h3>
-                                    <p className="text-[11px] text-slate-400 leading-relaxed font-bold opacity-80">{s.desc}</p>
+                                    <h3 className="text-xl font-black uppercase tracking-tight mb-3 italic text-white">{s.title}</h3>
+                                    <p className="text-[11px] text-slate-300 leading-relaxed font-bold opacity-80">{s.desc}</p>
                                 </div>
                             ))}
                         </div>
@@ -659,11 +659,11 @@ function App() {
                 )}
 
                 {view === 'update' && (
-                    <div className="glass-card overflow-hidden animate-fade-in shadow-2xl relative z-10 bg-white">
-                        <div className="p-12 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="glass-card overflow-hidden animate-fade-in shadow-2xl relative z-10">
+                        <div className="p-12 border-b border-white/10 bg-white/5/50 flex flex-col md:flex-row justify-between items-center gap-6">
                             <div>
-                                <h2 className="text-4xl font-black tracking-tighter uppercase italic leading-none text-slate-900">Duty Logs</h2>
-                                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 mt-2">Historical Operational Data</p>
+                                <h2 className="text-4xl font-black tracking-tighter uppercase italic leading-none text-white">Duty Logs</h2>
+                                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-300 mt-2">Historical Operational Data</p>
                             </div>
                             <div className="bg-cyan-500 px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-cyan-500/20 text-white">
                                 {logs.length} RECORDS SECURED
@@ -672,23 +672,23 @@ function App() {
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>
-                                    <tr className="bg-slate-50">
-                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Date Range</th>
-                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Timestamp</th>
-                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 text-right">Status</th>
+                                    <tr className="bg-white/5">
+                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-300">Date Range</th>
+                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-300">Timestamp</th>
+                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-300 text-right">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {logs.map((log) => (
-                                        <tr key={log.id} className="hover:bg-cyan-50 border-b border-slate-100 last:border-0 transition-all group">
+                                        <tr key={log.id} className="hover:bg-cyan-50 border-b border-white/10 last:border-0 transition-all group">
                                             <td className="px-12 py-8">
                                                 <div className="flex items-center space-x-5">
                                                     <div className="bg-cyan-500/10 p-3 rounded-[1rem] group-hover:bg-cyan-500/20 transition-colors">
                                                         <Calendar className="w-5 h-5 text-cyan-600" />
                                                     </div>
                                                     <div>
-                                                        <p className="font-extrabold text-lg tracking-tight text-slate-900">{log.date}</p>
-                                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Operational Cycle</p>
+                                                        <p className="font-extrabold text-lg tracking-tight text-white">{log.date}</p>
+                                                        <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest leading-none">Operational Cycle</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -712,10 +712,10 @@ function App() {
 
                 {view === 'settings' && (
                     <div className="space-y-8 animate-fade-in relative z-10">
-                        <div className="glass-card p-12 bg-white">
-                            <h2 className="text-4xl font-black tracking-tighter uppercase mb-12 italic text-slate-900">Personnel Identity</h2>
+                        <div className="glass-card p-12">
+                            <h2 className="text-4xl font-black tracking-tighter uppercase mb-12 italic text-white">Personnel Identity</h2>
                             <div className="grid gap-6">
-                                <div className="bg-slate-50 p-10 rounded-[2.5rem] border border-slate-100 relative overflow-hidden group">
+                                <div className="bg-white/5 p-10 rounded-[2.5rem] border border-white/10 relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-100 blur-[80px] rounded-full opacity-50"></div>
                                     <div className="flex justify-between items-center mb-10 relative z-10">
                                         <div className="flex items-center space-x-3">
@@ -724,7 +724,7 @@ function App() {
                                         </div>
                                         <button
                                             onClick={() => setIsEditing(!isEditing)}
-                                            className="text-[9px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-900 border border-slate-200 px-6 py-2.5 rounded-2xl hover:bg-white transition-all cursor-pointer"
+                                            className="text-[9px] font-black uppercase tracking-widest text-slate-300 hover:text-white border border-slate-200 px-6 py-2.5 rounded-2xl hover:bg-white transition-all cursor-pointer"
                                         >
                                             {isEditing ? 'Abort Edit' : 'Edit Credentials'}
                                         </button>
@@ -758,23 +758,23 @@ function App() {
                                             <button type="submit" className="btn-primary w-full py-4 text-xs uppercase tracking-[0.3em] font-black mt-4">Commit Updates</button>
                                         </form>
                                     ) : (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10 relative z-10 text-slate-900">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10 relative z-10 text-white">
                                             <div>
-                                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Legal Full Identity</p>
+                                                <p className="text-[10px] text-slate-300 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Legal Full Identity</p>
                                                 <p className="font-black text-2xl uppercase tracking-tighter italic">{userData ? `${userData.firstName} ${userData.lastName}` : '...'}</p>
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Authentication Index</p>
+                                                <p className="text-[10px] text-slate-300 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Authentication Index</p>
                                                 <div className="px-4 py-2 bg-cyan-50 rounded-xl inline-block border border-cyan-100">
                                                     <p className="font-bold text-xs text-cyan-600 lowercase">{user.email}</p>
                                                 </div>
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Verified Link</p>
+                                                <p className="text-[10px] text-slate-300 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Verified Link</p>
                                                 <p className="font-black text-lg uppercase tracking-widest">{userData ? userData.phone : '...'}</p>
                                             </div>
                                             <div>
-                                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Assigned Tag</p>
+                                                <p className="text-[10px] text-slate-300 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Assigned Tag</p>
                                                 <p className="font-black text-lg uppercase mb-1">{userData ? userData.gender : '...'}</p>
                                                 <div className="h-1.5 w-12 bg-cyan-500 rounded-full"></div>
                                             </div>
@@ -794,7 +794,7 @@ function App() {
             </main>
 
             {/* Bottom Nav */}
-            <div className="fixed bottom-10 left-1/2 -translate-x-1/2 w-[90%] max-w-lg glass-card px-4 py-4 rounded-[2.5rem] flex items-center justify-between shadow-2xl z-40 bg-white/90 backdrop-blur-3xl border border-slate-100">
+            <div className="fixed bottom-10 left-1/2 -translate-x-1/2 w-[90%] max-w-lg glass-card px-4 py-4 rounded-[2.5rem] flex items-center justify-between shadow-2xl z-40 backdrop-blur-3xl border border-white/10">
                 {[
                     { icon: <Calendar className="w-6 h-6" />, label: 'Hub', view: 'home' },
                     { icon: <Briefcase className="w-6 h-6" />, label: 'Services', view: 'services' },
