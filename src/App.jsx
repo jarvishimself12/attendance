@@ -1,5 +1,6 @@
 import { Briefcase, Calendar, Check, CheckCircle2, Eye, EyeOff, Hammer, History, Home, Image, Layers, LogIn, LogOut, Mail, Monitor, Palette, Settings } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import ceoImage from './assets/ceo-hero.jpeg';
 
 // Firebase Imports
 import {
@@ -406,7 +407,7 @@ function App() {
                         <div className="lg:col-span-4 hidden lg:block h-full">
                             <div className="glass-card h-full min-h-[500px] overflow-hidden relative group">
                                 <img 
-                                    src="./assets/employee-hero.png" 
+                                    src={ceoImage} 
                                     alt="Professional Hero" 
                                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
