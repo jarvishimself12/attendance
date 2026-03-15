@@ -1,4 +1,4 @@
-import { Briefcase, Calendar, Check, CheckCircle2, Eye, EyeOff, Hammer, History, Home, Image, Layers, LogIn, LogOut, Mail, Monitor, Palette, Settings } from 'lucide-react';
+import { Briefcase, Calendar, Check, CheckCircle2, Eye, EyeOff, Hammer, History, Home, Image, Layers, LogIn, LogOut, Mail, Monitor, Palette, Settings, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import ceoImage from './assets/ceo-hero.jpeg';
 
@@ -54,6 +54,7 @@ function App() {
         shift: '',
         summary: ''
     });
+    const [selectedService, setSelectedService] = useState(null);
 
     // 1. Monitor Auth State
     useEffect(() => {
@@ -420,7 +421,7 @@ function App() {
                         </div>
 
                         {/* Center Content */}
-                        <div className="lg:col-span-6 space-y-8">
+                        <div className="lg:col-span-9 space-y-8">
                             <div className="glass-card p-10 relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full -translate-x-12 -translate-y-12 group-hover:bg-cyan-400/20 transition-all duration-700"></div>
                                 <h1 className="text-5xl font-black tracking-tighter mb-4 italic leading-tight text-white">
@@ -482,17 +483,6 @@ function App() {
                             </div>
                         </div>
 
-                        {/* Right Hero Rectangle */}
-                        <div className="lg:col-span-3 hidden lg:block h-full">
-                            <div className="glass-card h-full min-h-[500px] overflow-hidden relative group bg-slate-900/50">
-                                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-40 group-hover:scale-110 transition-transform duration-700"></div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/90 via-transparent to-transparent"></div>
-                                <div className="absolute bottom-8 left-6 right-6">
-                                    <p className="text-[10px] font-black uppercase tracking-[0.4em] text-cyan-500 mb-2">DIGITAL ASSETS</p>
-                                    <h2 className="text-xl font-black italic text-white leading-tight uppercase">SECURE <span className="text-cyan-400">OPERATIONS</span>.</h2>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 )}
 
@@ -580,23 +570,111 @@ function App() {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[
-                                { title: '3D Installation', icon: <Layers />, desc: 'Physical branding and technical precision mountings.' },
-                                { title: 'Graphic Design', icon: <Palette />, desc: 'Modern visual identities and sleek digital solutions.' },
-                                { title: 'Fabrications', icon: <Hammer />, desc: 'Custom construction with high-end structural finish.' },
-                                { title: 'Framing Art', icon: <Image />, desc: 'Premium bespoke framing for elite art pieces.' },
-                                { title: 'Digital Media', icon: <Monitor />, desc: 'Corporate presentation and staging backdrops.' },
-                                { title: 'Interior Styling', icon: <Home />, desc: 'Bespoke corporate aesthetics and workspace art.' }
+                                { 
+                                    title: 'Graphic Design', 
+                                    icon: <Palette />, 
+                                    image: 'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&q=80',
+                                    desc: 'Modern visual identities and sleek digital creative solutions.',
+                                    longDesc: 'We specialize in high-end brand identity design, logo creation, and digital marketing assets. Our team uses industry-leading tools like Adobe Creative Suite to ensure your business stands out with a professional, state-of-the-art aesthetic.'
+                                },
+                                { 
+                                    title: 'Picture Frame', 
+                                    icon: <Image />, 
+                                    image: 'https://images.unsplash.com/photo-1583000213702-8a9667746143?auto=format&fit=crop&q=80',
+                                    desc: 'Premium bespoke framing for elite art pieces and portraits.',
+                                    longDesc: 'Preserve your memories and artwork with our bespoke framing services. We offer a wide range of premium materials, from museum-grade glass to custom-crafted wood and metal frames, ensuring every piece is protected and presented elegantly.'
+                                },
+                                { 
+                                    title: '3D & 2D Signages', 
+                                    icon: <Layers />, 
+                                    image: 'https://images.unsplash.com/photo-1540324155974-7523202daa3f?auto=format&fit=crop&q=80',
+                                    desc: 'Physical branding and high-end technical precision mountings.',
+                                    longDesc: 'From illuminated 3D channel letters to sleek 2D acrylic signs, we design and install high-visibility branding solutions. Our signage is built with durability and aesthetics in mind, perfect for corporate headquarters and retail storefronts.'
+                                },
+                                { 
+                                    title: 'Fabrications', 
+                                    icon: <Hammer />, 
+                                    image: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&q=80',
+                                    desc: 'Custom construction with high-end structural finish and design.',
+                                    longDesc: 'Our engineering team handles custom metal, wood, and acrylic fabrications. Whether it is a unique structural element for a workspace or a custom staging backdrop, we bring precision and structural integrity to every build.'
+                                },
+                                { 
+                                    title: 'Indoor Decorations', 
+                                    icon: <Home />, 
+                                    image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80',
+                                    desc: 'Bespoke corporate aesthetics and professional workspace art.',
+                                    longDesc: 'Elevate your interior environment with our tailored decoration services. We provide wall installations, bespoke furniture accents, and art placement strategies that transform standard offices into inspiring, premium workspaces.'
+                                },
+                                { 
+                                    title: 'And More', 
+                                    icon: <Monitor />, 
+                                    image: 'https://images.unsplash.com/photo-1454165833767-027ffea9e7a7?auto=format&fit=crop&q=80',
+                                    desc: 'Continually expanding our professional creative capabilities.',
+                                    longDesc: 'We are always innovating. Our services extend to digital media staging, corporate gift branding, and specialized event installations. If you have a creative vision, we have the technical expertise to bring it to life.'
+                                }
                             ].map((s, idx) => (
-                                <div key={idx} className="glass-card p-10 group cursor-default bg-white">
+                                <div 
+                                    key={idx} 
+                                    onClick={() => setSelectedService(s)}
+                                    className="glass-card p-10 group cursor-pointer hover:border-cyan-500/50 transition-all"
+                                >
                                     <div className="bg-cyan-500 p-4 w-14 h-14 rounded-2xl mb-6 shadow-xl group-hover:scale-110 transition-all group-hover:bg-cyan-400 relative">
                                         <div className="absolute inset-0 bg-cyan-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                         <div className="relative text-white">{s.icon}</div>
                                     </div>
                                     <h3 className="text-xl font-black uppercase tracking-tight mb-3 italic text-white">{s.title}</h3>
                                     <p className="text-[11px] text-slate-300 leading-relaxed font-bold opacity-80">{s.desc}</p>
+                                    <button className="mt-6 text-[8px] font-black uppercase tracking-[0.2em] text-cyan-500 group-hover:text-white transition-colors">View Details →</button>
                                 </div>
                             ))}
                         </div>
+
+                        {/* Service Detail Modal */}
+                        {selectedService && (
+                            <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/80 backdrop-blur-xl animate-fade-in">
+                                <div className="glass-card max-w-2xl w-full overflow-hidden relative border-white/10">
+                                    <button 
+                                        onClick={() => setSelectedService(null)}
+                                        className="absolute top-6 right-6 z-10 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all"
+                                    >
+                                        <X className="w-6 h-6" />
+                                    </button>
+                                    
+                                    <div className="h-64 overflow-hidden">
+                                        <img 
+                                            src={selectedService.image} 
+                                            alt={selectedService.title} 
+                                            className="w-full h-full object-cover transition-transform duration-1000"
+                                        />
+                                    </div>
+                                    
+                                    <div className="p-10 space-y-6">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="bg-cyan-500 p-3 rounded-xl text-white">
+                                                {selectedService.icon}
+                                            </div>
+                                            <h3 className="text-3xl font-black italic uppercase text-white">{selectedService.title}</h3>
+                                        </div>
+                                        
+                                        <div className="h-[2px] w-20 bg-cyan-500"></div>
+                                        
+                                        <p className="text-slate-300 text-sm leading-relaxed font-medium">
+                                            {selectedService.longDesc}
+                                        </p>
+                                        
+                                        <div className="pt-6 border-t border-white/5 flex justify-end">
+                                            <button 
+                                                onClick={() => setSelectedService(null)}
+                                                className="btn-primary px-8 py-3 text-[10px] uppercase tracking-widest"
+                                            >
+                                                Close Detail
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        )}
                     </div>
                 )}
 
