@@ -564,8 +564,7 @@ function App() {
                 {view === 'services' && (
                     <div className="animate-fade-in space-y-12">
                         <div className="text-center">
-                            <h2 className="text-5xl font-black italic tracking-tighter uppercase mb-2 text-white">Capabilities</h2>
-                            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-300 opacity-60">Professional Spectrum</p>
+                            <h2 className="text-5xl font-black italic tracking-tighter uppercase mb-2 text-white">Our Services</h2>
                             <div className="h-1.5 w-24 bg-gradient-to-r from-cyan-600 to-cyan-400 mx-auto rounded-full mt-6"></div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -609,7 +608,7 @@ function App() {
                                     title: 'And More', 
                                     icon: <Monitor />, 
                                     image: 'https://images.unsplash.com/photo-1454165833767-027ffea9e7a7?auto=format&fit=crop&q=80',
-                                    desc: 'Continually expanding our professional creative capabilities.',
+                                    desc: 'Continually expanding our professional creative services.',
                                     longDesc: 'We are always innovating. Our services extend to digital media staging, corporate gift branding, and specialized event installations. If you have a creative vision, we have the technical expertise to bring it to life.'
                                 }
                             ].map((s, idx) => (
