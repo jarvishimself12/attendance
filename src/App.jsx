@@ -403,145 +403,90 @@ function App() {
 
             <main className="max-w-4xl mx-auto p-6 animate-fade-in">
                 {view === 'home' && (
-                    <div className="space-y-8 pb-10">
-                        {/* 1. Header & Location */}
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-3">
-                                <div className="bg-cyan-500/10 p-2 rounded-full">
-                                    <MapPin className="w-5 h-5 text-cyan-600" />
-                                </div>
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Current Station</p>
-                                    <p className="font-bold text-sm text-slate-900">{enrollmentData.location || "Central Hub Office"}</p>
-                                </div>
+                    <div className="space-y-12 animate-fade-in pb-20">
+                        {/* 1. Hero Greeting & Station Info */}
+                        <div className="text-center space-y-4 pt-10">
+                            <div className="inline-flex items-center space-x-2 bg-cyan-50 text-cyan-600 px-4 py-2 rounded-full border border-cyan-100 text-[10px] font-black uppercase tracking-[0.3em] shadow-sm mb-4">
+                                <MapPin className="w-4 h-4" />
+                                <span>{enrollmentData.location || "Station Alpha - DC HQ"}</span>
                             </div>
-                            <div className="flex items-center space-x-2 bg-white px-4 py-1.5 rounded-full border border-slate-100 shadow-sm">
-                                <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-                                <span className="font-black text-xs">4.9 TOP OP</span>
+                            <h1 className="text-6xl md:text-7xl font-black italic tracking-tighter uppercase leading-none text-slate-900 drop-shadow-sm">
+                                Welcome, <br/>
+                                <span className="text-cyan-500">{userData ? userData.firstName : 'Partner'}</span>.
+                            </h1>
+                            <p className="text-slate-400 font-black uppercase tracking-[0.5em] text-[10px]">Operational Continuity: Active</p>
+                        </div>
+
+                        {/* 2. Core Performance Visualization (Activity Ring) */}
+                        <div className="relative h-64 flex items-center justify-center">
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-56 h-56 border-[12px] border-slate-50 rounded-full"></div>
+                                <div className="w-56 h-56 border-[12px] border-cyan-500 rounded-full absolute border-t-transparent border-r-transparent animate-spin-slow shadow-[0_0_20px_rgba(6,182,212,0.3)]"></div>
+                            </div>
+                            <div className="text-center z-10">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">Efficiency</span>
+                                <span className="text-5xl font-black italic text-slate-900 leading-none">98.2%</span>
                             </div>
                         </div>
 
-                        {/* 2. Search Bar */}
-                        <div className="relative group">
-                            <input 
-                                type="text" 
-                                placeholder="Search specialized services or projects..." 
-                                className="w-full bg-white border border-slate-200 rounded-2xl py-4 pl-14 pr-6 text-sm outline-none transition-all focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/5 shadow-sm group-hover:shadow-md"
-                            />
-                            <Search className="w-6 h-6 text-slate-400 absolute left-5 top-1/2 -translate-y-1/2 group-focus-within:text-cyan-500 transition-colors" />
+                        {/* 3. Command Grid - Focal Actions */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <button 
+                                onClick={() => setView('enrollment')}
+                                className="glass-card p-10 group hover:border-cyan-500 transition-all text-left relative overflow-hidden"
+                            >
+                                <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-100 transition-opacity">
+                                    <Clock className="w-12 h-12 text-cyan-500" />
+                                </div>
+                                <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter mb-2">Initialize Shift</h3>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Secure Protocol Boot</p>
+                                <div className="mt-6 w-12 h-1.5 bg-cyan-500 rounded-full group-hover:w-24 transition-all"></div>
+                            </button>
+                            <button 
+                                onClick={() => setView('services')}
+                                className="glass-card p-10 group hover:border-indigo-500 transition-all text-left relative overflow-hidden"
+                            >
+                                <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-100 transition-opacity">
+                                    <Shield className="w-12 h-12 text-indigo-500" />
+                                </div>
+                                <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter mb-2">Service Hub</h3>
+                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Access Global Assets</p>
+                                <div className="mt-6 w-12 h-1.5 bg-indigo-500 rounded-full group-hover:w-24 transition-all"></div>
+                            </button>
                         </div>
 
-                        {/* 3. Promo Banner */}
-                        <div className="relative h-48 rounded-[2.5rem] overflow-hidden group shadow-xl">
-                            <img 
-                                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80" 
-                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                                alt="Promo"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-r from-cyan-600/90 to-transparent"></div>
-                            <div className="absolute inset-0 p-8 flex flex-col justify-center">
-                                <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[8px] font-black uppercase text-white tracking-widest w-fit mb-4">Limited Availability</span>
-                                <h2 className="text-3xl font-black text-white italic uppercase tracking-tighter leading-none mb-2">3D Signage <br/>Campaign</h2>
-                                <p className="text-white/80 text-[10px] font-bold tracking-widest">FREE ESTIMATE ON PREMIUM FABRICATIONS</p>
+                        {/* 4. Minimalist Activity Feed (Subtle vertical list) */}
+                        <div className="pt-10">
+                            <div className="flex items-center justify-between mb-8">
+                                <h3 className="text-xl font-black italic uppercase text-slate-900 leading-none tracking-tighter">Activity Stream</h3>
+                                <span className="text-[9px] font-black uppercase tracking-[0.3em] text-cyan-500">Live Monitor</span>
                             </div>
-                        </div>
-
-                        {/* 4. Categories Grid */}
-                        <div className="grid grid-cols-4 gap-4">
-                            {[
-                                { icon: <Palette className="w-6 h-6" />, label: 'Graphics', color: 'bg-rose-50 text-rose-500' },
-                                { icon: <Image className="w-6 h-6" />, label: 'Frames', color: 'bg-cyan-50 text-cyan-600' },
-                                { icon: <Layers className="w-6 h-6" />, label: 'Signs', color: 'bg-indigo-50 text-indigo-500' },
-                                { icon: <Hammer className="w-6 h-6" />, label: 'Fab', color: 'bg-amber-50 text-amber-600' }
-                            ].map((cat, i) => (
-                                <button key={i} className="flex flex-col items-center space-y-2 group cursor-pointer" onClick={() => setView('services')}>
-                                    <div className={`${cat.color} p-5 rounded-3xl transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lg active:scale-90`}>
-                                        {cat.icon}
-                                    </div>
-                                    <span className="text-[9px] font-black uppercase tracking-widest text-slate-500">{cat.label}</span>
-                                </button>
-                            ))}
-                        </div>
-
-                        {/* 5. Live Tracking Widget (Delivery App Core Feature) */}
-                        <div className="glass-card p-6 border-l-4 border-l-cyan-500 relative overflow-hidden">
-                            <div className="flex items-start justify-between mb-6">
-                                <div>
-                                    <h3 className="font-black text-slate-900 uppercase tracking-tighter italic text-lg">Active Duty Sync</h3>
-                                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest leading-none mt-1">Live Technical Progress</p>
-                                </div>
-                                <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest flex items-center space-x-2">
-                                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
-                                    <span>In Progress</span>
-                                </div>
-                            </div>
-                            
-                            <div className="flex items-center space-x-8 mb-6 overflow-x-auto pb-4 no-scrollbar">
-                                <div className="flex flex-col items-center space-y-2 min-w-fit">
-                                    <div className="bg-cyan-100 p-3 rounded-2xl text-cyan-700">
-                                        <CheckCircle2 className="w-5 h-5" />
-                                    </div>
-                                    <span className="text-[8px] font-black text-slate-400 uppercase">Auth</span>
-                                </div>
-                                <div className="h-[2px] w-12 bg-cyan-200 mt-[-18px]"></div>
-                                <div className="flex flex-col items-center space-y-2 min-w-fit">
-                                    <div className="bg-cyan-500 p-3 rounded-2xl text-white shadow-lg shadow-cyan-500/20 animate-pulse">
-                                        <Clock className="w-5 h-5" />
-                                    </div>
-                                    <span className="text-[8px] font-black text-cyan-600 uppercase">In-Ops</span>
-                                </div>
-                                <div className="h-[2px] w-12 bg-slate-100 mt-[-18px]"></div>
-                                <div className="flex flex-col items-center space-y-2 min-w-fit opacity-40">
-                                    <div className="bg-slate-100 p-3 rounded-2xl text-slate-400">
-                                        <ArrowRight className="w-5 h-5" />
-                                    </div>
-                                    <span className="text-[8px] font-black text-slate-400 uppercase">Debrief</span>
-                                </div>
-                            </div>
-                            
-                            <div className="bg-slate-50 p-4 rounded-2xl flex items-center justify-between">
-                                <div className="flex items-center space-x-4">
-                                    <div className="w-12 h-12 bg-slate-200 rounded-xl overflow-hidden">
-                                        <img src={ceoImage} alt="Task" className="w-full h-full object-cover" />
-                                    </div>
-                                    <div>
-                                        <p className="font-extrabold text-sm text-slate-900 leading-tight">Digital Arts Fabrication</p>
-                                        <p className="text-[10px] text-slate-500 font-bold">Standard 8-Hour Cycle</p>
-                                    </div>
-                                </div>
-                                <button onClick={() => setView('update')} className="bg-white p-3 rounded-xl border border-slate-200 shadow-sm hover:bg-slate-50 transition-all">
-                                    <ArrowRight className="w-4 h-4 text-cyan-600" />
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* 6. Featured Services (Like restaurants) */}
-                        <div>
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="font-black text-slate-900 uppercase tracking-tighter italic text-xl">Top Art Services</h3>
-                                <button onClick={() => setView('services')} className="text-cyan-600 text-[10px] font-black uppercase tracking-[0.2em] hover:opacity-70 transition-opacity">Show All</button>
-                            </div>
-                            <div className="space-y-4">
+                            <div className="space-y-8 pl-4 border-l-2 border-slate-50">
                                 {[
-                                    { title: 'Graphic Design Elite', rating: '4.9', time: '2-4 Days', img: 'https://images.unsplash.com/photo-1541461985943-955a1d7bb1aa?auto=format&fit=crop&q=80' },
-                                    { title: '3D Laser Cutting', rating: '5.0', time: '24 Hours', img: 'https://images.unsplash.com/photo-1581094751156-455c5accc57f?auto=format&fit=crop&q=80' }
-                                ].map((service, i) => (
-                                    <div key={i} className="group cursor-pointer">
-                                        <div className="relative h-44 rounded-3xl overflow-hidden mb-3">
-                                            <img src={service.img} alt={service.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                                            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center space-x-2 shadow-lg">
-                                                <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-                                                <span className="font-black text-[10px]">{service.rating}</span>
+                                    { time: '09:41', event: 'Authentication Success', user: 'Secure Link Verified' },
+                                    { time: '08:20', event: 'New Graphic Project Initiated', user: 'Production Queue' },
+                                    { time: '07:15', event: 'Shift Log Completed', user: 'Archive Secured' }
+                                ].map((item, i) => (
+                                    <div key={i} className="relative">
+                                        <div className="absolute -left-[22px] top-1.5 w-3 h-3 bg-white border-2 border-cyan-500 rounded-full"></div>
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <p className="font-black text-sm uppercase italic text-slate-800">{item.event}</p>
+                                                <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{item.user}</p>
                                             </div>
-                                            <div className="absolute bottom-4 left-4 bg-cyan-600 text-white px-3 py-1 rounded-lg font-black text-[8px] uppercase tracking-widest">
-                                                {service.time} EST
-                                            </div>
+                                            <span className="text-[10px] font-black text-cyan-600 font-mono tracking-tighter">{item.time}</span>
                                         </div>
-                                        <p className="font-black text-slate-900 text-lg tracking-tight uppercase italic">{service.title}</p>
-                                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Premium Art & Material Suite</p>
                                     </div>
                                 ))}
                             </div>
+                        </div>
+
+                        {/* 5. Floating Mission Statement */}
+                        <div className="pt-20 text-center">
+                            <div className="h-px w-24 bg-slate-100 mx-auto mb-8"></div>
+                            <p className="text-slate-400 text-sm font-medium italic max-w-sm mx-auto leading-relaxed">
+                                "Precision in Every Pixel. Excellence in Every Frame. Engineering the Future of DC Tech & Art Services."
+                            </p>
                         </div>
                     </div>
                 )}
@@ -679,8 +624,11 @@ function App() {
                             ].map((s, idx) => (
                                 <div 
                                     key={idx} 
-                                    onClick={() => setSelectedService(s)}
-                                    className="glass-card p-10 group cursor-pointer hover:border-cyan-500/50 transition-all"
+                                    onClick={() => {
+                                        setSelectedService(s);
+                                        setView('service_detail');
+                                    }}
+                                    className="glass-card p-10 group cursor-pointer hover:border-cyan-500/50 transition-all text-slate-800"
                                 >
                                     <div className="bg-cyan-500 p-4 w-14 h-14 rounded-2xl mb-6 shadow-xl group-hover:scale-110 transition-all group-hover:bg-cyan-400 relative">
                                         <div className="absolute inset-0 bg-cyan-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -941,12 +889,84 @@ function App() {
                         </button>
                     </div>
                 )}
+                {view === 'service_detail' && selectedService && (
+                    <div className="animate-fade-in space-y-10 pb-24">
+                        <div className="flex items-center justify-between">
+                            <button 
+                                onClick={() => {
+                                    setView('services');
+                                    setSelectedService(null);
+                                }}
+                                className="flex items-center space-x-3 text-[10px] font-black uppercase tracking-[0.2em] text-cyan-600 hover:text-cyan-800 transition-all group cursor-pointer"
+                            >
+                                <div className="p-2 bg-cyan-50 rounded-lg group-hover:-translate-x-1 transition-transform border border-cyan-100 flex items-center justify-center">←</div>
+                                <span>Back to Services</span>
+                            </button>
+                            <div className="flex items-center space-x-2 bg-emerald-50 text-emerald-600 px-4 py-1.5 rounded-full border border-emerald-100 text-[9px] font-black uppercase tracking-widest shadow-sm">
+                                <div className="h-1.5 w-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                                <span>Service Online</span>
+                            </div>
+                        </div>
+
+                        <div className="glass-card overflow-hidden">
+                            <div className="h-96 relative group">
+                                <img 
+                                    src={selectedService.image} 
+                                    alt={selectedService.title} 
+                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+                                <div className="absolute bottom-12 left-12 text-slate-800">
+                                    <h2 className="text-5xl font-black italic tracking-tighter uppercase leading-none text-slate-900 drop-shadow-sm">{selectedService.title}</h2>
+                                    <div className="flex items-center space-x-3 mt-4">
+                                        <div className="h-1.5 w-16 bg-cyan-500 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
+                                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-700">Enterprise Solution Tier</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-12 space-y-12">
+                                <div className="space-y-6">
+                                    <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter mb-4 border-l-4 border-cyan-500 pl-4 text-slate-800">Service Philosophy</h3>
+                                    <p className="text-slate-700 text-base leading-relaxed font-medium">
+                                        {selectedService.longDesc}
+                                    </p>
+                                </div>
+
+                                {selectedService.gallery && (
+                                    <div className="space-y-8 pt-10 border-t border-slate-50">
+                                        <div className="flex items-center justify-between">
+                                            <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter text-slate-800">Visual Archive</h3>
+                                            <p className="text-[9px] font-black uppercase tracking-[0.5em] text-cyan-500">Portfolio Proof</p>
+                                        </div>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                            {selectedService.gallery.map((img, i) => (
+                                                <div key={i} className="h-64 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all group border border-slate-100 bg-white">
+                                                    <img 
+                                                        src={img} 
+                                                        alt={`Gallery ${i}`} 
+                                                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                                                    />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="pt-10 flex flex-col md:flex-row gap-6">
+                                    <button className="btn-primary flex-1 py-6 text-[10px] uppercase tracking-widest font-black shadow-2xl shadow-cyan-500/30">Initiate Collaboration</button>
+                                    <button className="flex-1 bg-white border border-slate-200 py-6 text-[10px] uppercase tracking-widest font-black text-slate-600 rounded-2xl hover:bg-slate-50 transition-all shadow-sm">Technical Specifications</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </main>
 
             {/* Bottom Nav */}
             <div className="fixed bottom-10 left-1/2 -translate-x-1/2 w-[90%] max-w-lg glass-card px-4 py-4 rounded-[2.5rem] flex items-center justify-between shadow-2xl z-40 backdrop-blur-3xl border border-white/10">
                 {[
-                    { icon: <Calendar className="w-6 h-6" />, label: 'Hub', view: 'home' },
+                    { icon: <Home className="w-6 h-6" />, label: 'Home', view: 'home' },
                     { icon: <Briefcase className="w-6 h-6" />, label: 'Services', view: 'services' },
                     { icon: <History className="w-6 h-6" />, label: 'Logs', view: 'update' },
                     { icon: <Settings className="w-6 h-6" />, label: 'Persona', view: 'settings' }
