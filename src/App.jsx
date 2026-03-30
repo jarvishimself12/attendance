@@ -261,11 +261,11 @@ function App() {
                         <div className="absolute inset-0 bg-cyan-500/10 blur-2xl rounded-full scale-150 animate-pulse"></div>
                         <Calendar className="w-20 h-20 text-cyan-500 relative animate-bounce" />
                     </div>
-                    <h1 className="text-4xl font-black text-white tracking-[0.3em] uppercase mb-2 animate-fade-in italic">
+                    <h1 className="text-4xl font-black text-slate-900 tracking-[0.3em] uppercase mb-2 animate-fade-in italic">
                         DC <span className="text-cyan-500">TECH</span>
                     </h1>
                     <div className="h-1.5 w-16 bg-cyan-500 mx-auto rounded-full mb-3"></div>
-                    <p className="text-slate-300 text-[10px] font-black tracking-[0.5em] uppercase opacity-70">Art Services</p>
+                    <p className="text-slate-500 text-[10px] font-black tracking-[0.5em] uppercase opacity-70">Art Services</p>
                 </div>
             </div>
         );
@@ -285,10 +285,10 @@ function App() {
                         <div className="bg-cyan-500/10 p-5 rounded-2xl mb-6 border border-cyan-500/5">
                             <LogIn className="w-8 h-8 text-cyan-500" />
                         </div>
-                        <h1 className="text-4xl font-black tracking-tight text-center italic text-white">
+                        <h1 className="text-4xl font-black tracking-tight text-center italic text-slate-900">
                             DC <span className="text-cyan-500">TECH</span>
                         </h1>
-                        <p className="text-slate-300 mt-2 text-xs font-bold uppercase tracking-widest opacity-60">Employee Portal</p>
+                        <p className="text-slate-500 mt-2 text-xs font-bold uppercase tracking-widest opacity-60">Employee Portal</p>
                     </div>
 
                     <form onSubmit={handleAuth} className="space-y-5">
@@ -355,7 +355,7 @@ function App() {
     }
 
     return (
-        <div className="min-h-screen text-white pb-28">
+        <div className="min-h-screen text-slate-900 pb-28">
             {/* Top Header */}
             <nav className="glass sticky top-0 z-30 px-6 py-4 flex justify-between items-center backdrop-blur-2xl border-b border-white/10">
                 <div className="flex items-center space-x-3">
@@ -363,8 +363,8 @@ function App() {
                         <Calendar className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                        <span className="text-xl font-black tracking-tighter block leading-none italic text-white">DC <span className="text-cyan-500">TECH</span></span>
-                        <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-300">Employee Portal</span>
+                        <span className="text-xl font-black tracking-tighter block leading-none italic text-slate-900">DC <span className="text-cyan-500">TECH</span></span>
+                        <span className="text-[8px] font-black uppercase tracking-[0.3em] text-cyan-600">Employee Portal</span>
                     </div>
                 </div>
 
@@ -424,12 +424,12 @@ function App() {
                         <div className="lg:col-span-9 space-y-8">
                             <div className="glass-card p-10 relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full -translate-x-12 -translate-y-12 group-hover:bg-cyan-400/20 transition-all duration-700"></div>
-                                <h1 className="text-5xl font-black tracking-tighter mb-4 italic leading-tight text-white">
+                                <h1 className="text-5xl font-black tracking-tighter mb-4 italic leading-tight text-slate-900">
                                     Welcome, <span className="text-cyan-500">{userData ? userData.firstName : 'User'}</span>.
                                 </h1>
                                 <div className="flex items-center space-x-3 opacity-40">
-                                    <div className="h-[2px] w-8 bg-cyan-400"></div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Employee Portal</p>
+                                    <div className="h-[2px] w-8 bg-cyan-600"></div>
+                                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600">Employee Portal</p>
                                 </div>
                             </div>
 
@@ -440,12 +440,12 @@ function App() {
                                         <div className="bg-cyan-500/20 p-2 rounded-xl">
                                             <Monitor className="w-4 h-4 text-cyan-500" />
                                         </div>
-                                        <p className="text-[10px] font-black text-white uppercase tracking-[0.15em] italic">
-                                            <span className="text-cyan-500 opacity-60 mr-2">CHIEF OPS:</span>
+                                        <p className="text-[10px] font-black text-slate-800 uppercase tracking-[0.15em] italic">
+                                            <span className="text-cyan-600 opacity-60 mr-2">CHIEF OPS:</span>
                                             "{announcements[0].text}"
                                         </p>
                                     </div>
-                                    <span className="text-[8px] font-black text-white/40 uppercase font-mono">{announcements[0].time}</span>
+                                    <span className="text-[8px] font-black text-slate-400 uppercase font-mono">{announcements[0].time}</span>
                                 </div>
                             )}
 
@@ -621,9 +621,9 @@ function App() {
                                         <div className="absolute inset-0 bg-cyan-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                         <div className="relative text-white">{s.icon}</div>
                                     </div>
-                                    <h3 className="text-xl font-black uppercase tracking-tight mb-3 italic text-white">{s.title}</h3>
-                                    <p className="text-[11px] text-slate-300 leading-relaxed font-bold opacity-80">{s.desc}</p>
-                                    <button className="mt-6 text-[8px] font-black uppercase tracking-[0.2em] text-cyan-500 group-hover:text-white transition-colors">View Details →</button>
+                                    <h3 className="text-xl font-black uppercase tracking-tight mb-3 italic text-slate-900">{s.title}</h3>
+                                    <p className="text-[11px] text-slate-600 leading-relaxed font-bold opacity-80">{s.desc}</p>
+                                    <button className="mt-6 text-[8px] font-black uppercase tracking-[0.2em] text-cyan-600 group-hover:text-cyan-800 transition-colors">View Details →</button>
                                 </div>
                             ))}
                         </div>
@@ -652,12 +652,12 @@ function App() {
                                             <div className="bg-cyan-500 p-3 rounded-xl text-white">
                                                 {selectedService.icon}
                                             </div>
-                                            <h3 className="text-3xl font-black italic uppercase text-white">{selectedService.title}</h3>
+                                            <h3 className="text-3xl font-black italic uppercase text-slate-900">{selectedService.title}</h3>
                                         </div>
                                         
                                         <div className="h-[2px] w-20 bg-cyan-500"></div>
                                         
-                                        <p className="text-slate-300 text-sm leading-relaxed font-medium">
+                                        <p className="text-slate-700 text-sm leading-relaxed font-medium">
                                             {selectedService.longDesc}
                                         </p>
                                         
@@ -680,8 +680,8 @@ function App() {
                     <div className="glass-card overflow-hidden animate-fade-in shadow-2xl relative z-10">
                         <div className="p-12 border-b border-white/10 bg-white/5/50 flex flex-col md:flex-row justify-between items-center gap-6">
                             <div>
-                                <h2 className="text-4xl font-black tracking-tighter uppercase italic leading-none text-white">Duty Logs</h2>
-                                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-300 mt-2">Historical Operational Data</p>
+                                <h2 className="text-4xl font-black tracking-tighter uppercase italic leading-none text-slate-900">Duty Logs</h2>
+                                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-cyan-600 mt-2">Historical Operational Data</p>
                             </div>
                             <div className="bg-cyan-500 px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-cyan-500/20 text-white">
                                 {logs.length} RECORDS SECURED
@@ -690,10 +690,10 @@ function App() {
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead>
-                                    <tr className="bg-white/5">
-                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-300">Date Range</th>
-                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-300">Timestamp</th>
-                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-300 text-right">Status</th>
+                                    <tr className="bg-cyan-50/50">
+                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-cyan-700">Date Range</th>
+                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-cyan-700">Timestamp</th>
+                                        <th className="px-12 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-cyan-700 text-right">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -705,8 +705,8 @@ function App() {
                                                         <Calendar className="w-5 h-5 text-cyan-600" />
                                                     </div>
                                                     <div>
-                                                        <p className="font-extrabold text-lg tracking-tight text-white">{log.date}</p>
-                                                        <p className="text-[9px] font-black text-slate-300 uppercase tracking-widest leading-none">Operational Cycle</p>
+                                                        <p className="font-extrabold text-lg tracking-tight text-slate-900">{log.date}</p>
+                                                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Operational Cycle</p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -731,7 +731,7 @@ function App() {
                 {view === 'settings' && (
                     <div className="space-y-8 animate-fade-in relative z-10">
                         <div className="glass-card p-12">
-                            <h2 className="text-4xl font-black tracking-tighter uppercase mb-12 italic text-white">Personnel Identity</h2>
+                            <h2 className="text-4xl font-black tracking-tighter uppercase mb-12 italic text-slate-900">Personnel Identity</h2>
                             <div className="grid gap-6">
                                 <div className="bg-white/5 p-10 rounded-[2.5rem] border border-white/10 relative overflow-hidden group">
                                     <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-100 blur-[80px] rounded-full opacity-50"></div>
@@ -776,10 +776,10 @@ function App() {
                                             <button type="submit" className="btn-primary w-full py-4 text-xs uppercase tracking-[0.3em] font-black mt-4">Commit Updates</button>
                                         </form>
                                     ) : (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10 relative z-10 text-white">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10 relative z-10 text-slate-800">
                                             <div>
-                                                <p className="text-[10px] text-slate-300 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Legal Full Identity</p>
-                                                <p className="font-black text-2xl uppercase tracking-tighter italic">{userData ? `${userData.firstName} ${userData.lastName}` : '...'}</p>
+                                                <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Legal Full Identity</p>
+                                                <p className="font-black text-2xl uppercase tracking-tighter italic text-slate-900">{userData ? `${userData.firstName} ${userData.lastName}` : '...'}</p>
                                             </div>
                                             <div>
                                                 <p className="text-[10px] text-slate-300 font-black uppercase tracking-[0.3em] mb-2 opacity-60">Authentication Index</p>
