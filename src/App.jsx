@@ -634,7 +634,12 @@ function App() {
                                     icon: <Palette />, 
                                     image: 'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&q=80',
                                     desc: 'Modern visual identities and sleek digital creative solutions.',
-                                    longDesc: 'We specialize in high-end brand identity design, logo creation, and digital marketing assets. Our team uses industry-leading tools like Adobe Creative Suite to ensure your business stands out with a professional, state-of-the-art aesthetic.'
+                                    longDesc: 'We specialize in high-end brand identity design, logo creation, and digital marketing assets. Our team uses industry-leading tools like Adobe Creative Suite to ensure your business stands out with a professional, state-of-the-art aesthetic.',
+                                    gallery: [
+                                        'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80',
+                                        'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80',
+                                        'https://images.unsplash.com/photo-1611532736597-ec2e4a6605a2?auto=format&fit=crop&q=80'
+                                    ]
                                 },
                                 { 
                                     title: 'Picture Frame', 
@@ -720,6 +725,23 @@ function App() {
                                         <p className="text-slate-700 text-sm leading-relaxed font-medium">
                                             {selectedService.longDesc}
                                         </p>
+
+                                        {selectedService.gallery && (
+                                            <div className="space-y-4 pt-6">
+                                                <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-600">Portfolio Highlights</h4>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    {selectedService.gallery.map((img, i) => (
+                                                        <div key={i} className="h-40 rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md hover:border-cyan-500/20 transition-all group">
+                                                            <img 
+                                                                src={img} 
+                                                                alt={`Gallery ${i}`} 
+                                                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                                            />
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                         
                                         <div className="pt-6 border-t border-white/5 flex justify-end">
                                             <button 
