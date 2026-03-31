@@ -1,5 +1,5 @@
-import { Activity, ArrowRight, Award, Briefcase, Calendar, Check, CheckCircle2, Clock, Eye, EyeOff, Hammer, History, Home, Image, Layers, LogIn, LogOut, Mail, MapPin, Monitor, Palette, Search, Settings, Shield, ShoppingBag, Star, User, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { Activity, ArrowRight, Award, Briefcase, Calendar, Camera, Check, CheckCircle2, Clock, Eye, EyeOff, Hammer, History, Home, Image, Layers, LogIn, LogOut, Mail, MapPin, Monitor, Palette, Search, Settings, Shield, ShoppingBag, Star, User, X } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
 import ceoImage from './assets/ceo-hero.jpeg';
 
 // Firebase Imports
@@ -19,6 +19,7 @@ import {
     orderBy,
     query,
     setDoc,
+    updateDoc,
     where
 } from "firebase/firestore";
 import { auth, db } from './firebase';
@@ -56,6 +57,31 @@ function App() {
     });
     const [selectedService, setSelectedService] = useState(null);
     const [expandedSubService, setExpandedSubService] = useState(null);
+    const fileInputRef = useRef(null);
+
+    const handleProfilePicUpdate = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        // Size validation (Max 1MB for base64 storage in Firestore)
+        if (file.size > 1024 * 1024) {
+            alert("File too large. Max 1MB.");
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+            const base64String = reader.result;
+            try {
+                const userRef = doc(db, "users", user.uid);
+                await updateDoc(userRef, { profilePic: base64String });
+                setUserData(prev => ({ ...prev, profilePic: base64String }));
+            } catch (err) {
+                console.error("Error updating profile pic:", err);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
 
     // 1. Monitor Auth State
     useEffect(() => {
@@ -428,9 +454,13 @@ function App() {
                                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-indigo-600 blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700"></div>
                                 <div className="w-32 h-32 md:w-40 md:h-40 glass-card rounded-[3rem] p-2 relative z-10 transition-transform duration-700 group-hover:rotate-6">
                                     <div className="w-full h-full bg-gradient-to-br from-slate-50 to-white rounded-[2.5rem] flex items-center justify-center overflow-hidden border border-white/40 shadow-inner">
-                                        <span className="text-4xl md:text-5xl font-black italic text-cyan-600/30 font-outfit select-none">
-                                            {userData ? userData.firstName[0] + userData.lastName[0] : 'DC'}
-                                        </span>
+                                        {userData?.profilePic ? (
+                                            <img src={userData.profilePic} alt="Profile" className="w-full h-full object-cover" />
+                                        ) : (
+                                            <span className="text-4xl md:text-5xl font-black italic text-cyan-600/30 font-outfit select-none">
+                                                {userData ? userData.firstName[0] + userData.lastName[0] : 'DC'}
+                                            </span>
+                                        )}
                                     </div>
                                     <div className="absolute -bottom-2 -right-2 bg-emerald-500 p-3 rounded-2xl shadow-xl shadow-emerald-500/30 border-4 border-white animate-bounce-slow">
                                         <Shield className="w-5 h-5 text-white" />
@@ -813,11 +843,29 @@ function App() {
                             <div className="absolute -top-24 -right-24 w-64 h-64 bg-cyan-500/10 blur-[100px] rounded-full group-hover:bg-cyan-400/20 transition-all duration-700"></div>
                             
                             <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8 relative z-10">
-                                <div className="w-32 h-32 bg-gradient-to-br from-cyan-500 to-indigo-600 rounded-[2.5rem] flex items-center justify-center shadow-2xl relative group-hover:rotate-3 transition-transform">
-                                    <span className="text-4xl font-black text-white italic">
-                                        {userData ? userData.firstName[0] + userData.lastName[0] : '...'}
-                                    </span>
-                                    <div className="absolute -bottom-2 -right-2 bg-white p-2 rounded-2xl shadow-xl">
+                                <div 
+                                    onClick={() => fileInputRef.current.click()}
+                                    className="w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br from-cyan-500 to-indigo-600 rounded-[2.5rem] flex items-center justify-center shadow-2xl relative group/avatar hover:scale-105 transition-all cursor-pointer overflow-hidden border-4 border-white"
+                                >
+                                    {userData?.profilePic ? (
+                                        <img src={userData.profilePic} alt="Profile" className="w-full h-full object-cover" />
+                                    ) : (
+                                        <span className="text-5xl font-black text-white italic font-outfit">
+                                            {userData ? userData.firstName[0] + userData.lastName[0] : '...'}
+                                        </span>
+                                    )}
+                                    <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm opacity-0 group-hover/avatar:opacity-100 flex flex-col items-center justify-center transition-all duration-500">
+                                        <Camera className="w-8 h-8 text-white mb-2" />
+                                        <span className="text-[8px] font-black uppercase tracking-widest text-white">Update Photo</span>
+                                    </div>
+                                    <input 
+                                        type="file" 
+                                        ref={fileInputRef} 
+                                        className="hidden" 
+                                        accept="image/*" 
+                                        onChange={handleProfilePicUpdate} 
+                                    />
+                                    <div className="absolute -bottom-2 -right-2 bg-white p-3 rounded-2xl shadow-xl z-20">
                                         <Award className="w-6 h-6 text-amber-500" />
                                     </div>
                                 </div>
