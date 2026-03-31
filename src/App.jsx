@@ -1,6 +1,8 @@
 import { Activity, ArrowRight, Award, Briefcase, Calendar, Camera, Check, CheckCircle2, Clock, Eye, EyeOff, Hammer, History, Home, Image, Layers, LogIn, LogOut, Mail, MapPin, Monitor, Palette, Search, Settings, Shield, ShoppingBag, Star, User, X } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import ceoImage from './assets/ceo-hero.jpeg';
+import logoImg from './assets/logo.png';
+
 
 // Firebase Imports
 import {
@@ -23,6 +25,8 @@ import {
     where
 } from "firebase/firestore";
 import { auth, db } from './firebase';
+import AdminSite from './AdminSite';
+
 
 function App() {
     const [showSplash, setShowSplash] = useState(true);
@@ -92,11 +96,15 @@ function App() {
                 try {
                     const docRef = doc(db, "users", firebaseUser.uid);
                     const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        setUserData(data);
-                        setEditData(data);
+                    let data = docSnap.exists() ? docSnap.data() : { firstName: 'Admin', lastName: 'User' };
+                    
+                    // For convenience/demo - making admin@dctech.com an admin automatically
+                    if (firebaseUser.email === 'admin@dctech.com') {
+                        data.isAdmin = true;
                     }
+                    
+                    setUserData(data);
+                    setEditData(data);
                 } catch (err) {
                     console.error("Error fetching user data:", err);
                 }
@@ -252,6 +260,34 @@ function App() {
         resetForms();
     };
 
+    const handleServiceRequest = async (service, subService = null, price = null, size = null) => {
+        if (!user) {
+            alert("Please sign in to submit a request.");
+            setView('home');
+            return;
+        }
+
+        try {
+            await addDoc(collection(db, "orders"), {
+                userId: user.uid,
+                userEmail: user.email,
+                userName: userData ? `${userData.firstName} ${userData.lastName}` : user.email,
+                serviceTitle: service.title,
+                subService: subService?.name || null,
+                price: price || null,
+                size: size || null,
+                timestamp: Date.now(),
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString(),
+                status: 'Pending'
+            });
+            alert(`Request for ${service.title} submitted successfully! Our team will contact you.`);
+        } catch (err) {
+            console.error("Order failed:", err);
+            alert("Failed to submit request. Please try again.");
+        }
+    };
+
     const resetForms = () => {
         setFirstName(''); setLastName(''); setEmail(''); setPassword('');
         setPhone(''); setGender(''); setError('');
@@ -286,7 +322,7 @@ function App() {
                 <div className="text-center relative z-10">
                     <div className="relative mb-8 flex justify-center">
                         <div className="absolute inset-0 bg-cyan-500/10 blur-2xl rounded-full scale-150 animate-pulse"></div>
-                        <Calendar className="w-20 h-20 text-cyan-500 relative animate-bounce" />
+                        <img src={logoImg} alt="DC TECH" className="w-32 h-32 relative object-contain mix-blend-multiply" />
                     </div>
                     <h1 className="text-4xl font-black text-slate-900 tracking-[0.3em] mb-2 animate-fade-in italic">
                         DC <span className="text-cyan-500">TECH</span>
@@ -309,10 +345,10 @@ function App() {
 
                 <div className="glass-card p-10 w-full max-w-md relative z-10 animate-fade-in border-white/10">
                     <div className="flex flex-col items-center mb-10">
-                        <div className="bg-cyan-500/10 p-5 rounded-2xl mb-6 border border-cyan-500/5">
-                            <LogIn className="w-8 h-8 text-cyan-500" />
+                        <div className="bg-white p-3 rounded-3xl mb-6 shadow-sm border border-cyan-500/5">
+                            <img src={logoImg} alt="DC TECH" className="w-20 h-20 object-contain mix-blend-multiply" />
                         </div>
-                        <h1 className="text-4xl font-black tracking-tight text-center italic text-slate-900">
+                        <h1 className="text-4xl font-black tracking-tight text-center italic text-slate-900 leading-none">
                             DC <span className="text-cyan-500">TECH</span>
                         </h1>
                         <p className="text-slate-500 mt-2 text-xs font-bold tracking-widest opacity-60">Employee Portal</p>
@@ -386,8 +422,8 @@ function App() {
             {/* Top Header */}
             <nav className="glass sticky top-0 z-30 px-6 py-4 flex justify-between items-center backdrop-blur-2xl border-b border-white/10">
                 <div className="flex items-center space-x-3">
-                    <div className="bg-cyan-500 p-2.5 rounded-[1rem] shadow-lg shadow-cyan-500/20">
-                        <Calendar className="w-5 h-5 text-white" />
+                    <div className="bg-white p-2 rounded-xl shadow-md border border-cyan-500/10">
+                        <img src={logoImg} alt="DC TECH" className="w-8 h-8 object-contain mix-blend-multiply" />
                     </div>
                     <div>
                         <span className="text-xl font-black tracking-tighter block leading-none italic text-slate-900">DC <span className="text-cyan-500">TECH</span></span>
@@ -423,6 +459,15 @@ function App() {
                                 <p className="font-extrabold text-sm tracking-tight italic">{userData ? `${userData.firstName} ${userData.lastName}` : 'User'}</p>
                                 <p className="text-[9px] text-gray-400 font-bold tracking-widest mt-1 opacity-60">{user.email}</p>
                             </div>
+                            {userData?.isAdmin && (
+                                <button 
+                                    onClick={() => { setView('admin'); setShowProfileMenu(false); }}
+                                    className="w-full flex items-center space-x-3 p-4 hover:bg-cyan-500/10 text-cyan-500 rounded-2xl transition-all cursor-pointer font-black text-[10px] tracking-[0.2em]"
+                                >
+                                    <Shield className="w-4 h-4" />
+                                    <span>Admin Dashboard</span>
+                                </button>
+                            )}
                             <button onClick={handleLogout} className="w-full flex items-center justify-center space-x-3 p-4 hover:bg-red-500/10 text-red-500 rounded-2xl transition-all cursor-pointer font-black text-[10px] tracking-[0.2em]">
                                 <LogOut className="w-4 h-4" />
                                 <span>Sign Out Now</span>
@@ -432,16 +477,16 @@ function App() {
                 </div>
             </nav>
 
-            <main className="max-w-4xl mx-auto p-6 animate-fade-in">
+            {view === 'admin' ? (
+                <AdminSite onBack={() => setView('home')} />
+            ) : (
+                <>
+                <main className="max-w-4xl mx-auto p-6 animate-fade-in">
                 {view === 'home' && (
                     <div className="space-y-12 animate-fade-in pb-20">
                         {/* 1. Modern Hero Greeting & Identity Hub */}
                         <div className="flex flex-col md:flex-row items-center justify-between pt-12 pb-6 space-y-8 md:space-y-0">
                             <div className="space-y-4 text-center md:text-left">
-                                <div className="inline-flex items-center space-x-3 bg-white/40 backdrop-blur-md px-5 py-2 rounded-2xl border border-white/50 text-[10px] font-black tracking-[0.4em] text-cyan-600 shadow-sm transition-all hover:bg-white/60 cursor-default">
-                                    <div className="h-2 w-2 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
-                                    <span>System Online // {enrollmentData.location || "Station Alpha"}</span>
-                                </div>
                                 <h1 className="text-7xl md:text-8xl font-black italic tracking-[-(0.05em)] leading-none text-slate-900 drop-shadow-sm select-none">
                                     Hey, <br/>
                                     <span className="bg-gradient-to-r from-cyan-500 via-cyan-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-none">
@@ -1015,7 +1060,12 @@ function App() {
                                                                 </div>
                                                             ))}
                                                             <div className="pt-8">
-                                                                <button className="w-full btn-primary py-6 text-[10px] tracking-[0.4em] font-black rounded-2xl shadow-xl shadow-cyan-500/20 active:scale-95 transition-all">Submit Service Request</button>
+                                                                <button 
+                                                                    onClick={() => handleServiceRequest(selectedService, sub, item.price, item.size)}
+                                                                    className="w-full btn-primary py-6 text-[10px] tracking-[0.4em] font-black rounded-2xl shadow-xl shadow-cyan-500/20 active:scale-95 transition-all"
+                                                                >
+                                                                    Submit Service Request
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     )}
@@ -1046,7 +1096,12 @@ function App() {
                                 )}
 
                                 <div className="pt-10 flex flex-col md:flex-row gap-6">
-                                    <button className="btn-primary flex-1 py-6 text-[10px] tracking-widest font-black shadow-2xl shadow-cyan-500/30">Initiate Collaboration</button>
+                                    <button 
+                                        onClick={() => handleServiceRequest(selectedService)}
+                                        className="btn-primary flex-1 py-6 text-[10px] tracking-widest font-black shadow-2xl shadow-cyan-500/30"
+                                    >
+                                        Initiate Collaboration
+                                    </button>
                                     <button className="flex-1 bg-white border border-slate-200 py-6 text-[10px] tracking-widest font-black text-slate-600 rounded-2xl hover:bg-slate-50 transition-all shadow-sm">Technical Specifications</button>
                                 </div>
                             </div>
@@ -1079,6 +1134,8 @@ function App() {
                     </button>
                 ))}
             </div>
+            </>
+            )}
         </div>
     );
 }
