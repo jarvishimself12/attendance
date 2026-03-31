@@ -405,17 +405,38 @@ function App() {
             <main className="max-w-4xl mx-auto p-6 animate-fade-in">
                 {view === 'home' && (
                     <div className="space-y-12 animate-fade-in pb-20">
-                        {/* 1. Hero Greeting & Station Info */}
-                        <div className="text-center space-y-4 pt-10">
-                            <div className="inline-flex items-center space-x-2 bg-cyan-50 text-cyan-600 px-4 py-2 rounded-full border border-cyan-100 text-[10px] font-black uppercase tracking-[0.3em] shadow-sm mb-4">
-                                <MapPin className="w-4 h-4" />
-                                <span>{enrollmentData.location || "Station Alpha - DC HQ"}</span>
+                        {/* 1. Modern Hero Greeting & Identity Hub */}
+                        <div className="flex flex-col md:flex-row items-center justify-between pt-12 pb-6 space-y-8 md:space-y-0">
+                            <div className="space-y-4 text-center md:text-left">
+                                <div className="inline-flex items-center space-x-3 bg-white/40 backdrop-blur-md px-5 py-2 rounded-2xl border border-white/50 text-[10px] font-black uppercase tracking-[0.4em] text-cyan-600 shadow-sm transition-all hover:bg-white/60 cursor-default">
+                                    <div className="h-2 w-2 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
+                                    <span>System Online // {enrollmentData.location || "Station Alpha"}</span>
+                                </div>
+                                <h1 className="text-7xl md:text-8xl font-black italic tracking-[-(0.05em)] uppercase leading-none text-slate-900 drop-shadow-sm select-none">
+                                    Hey, <br/>
+                                    <span className="bg-gradient-to-r from-cyan-500 via-cyan-400 to-indigo-500 bg-clip-text text-transparent drop-shadow-none">
+                                        {userData ? userData.firstName : 'Partner'}
+                                    </span>
+                                </h1>
+                                <p className="text-slate-400 font-extrabold uppercase tracking-[0.6em] text-[9px] pl-2 flex items-center space-x-3">
+                                    <div className="h-[1px] w-6 bg-slate-200"></div>
+                                    <span>Operational Continuity Active</span>
+                                </p>
                             </div>
-                            <h1 className="text-6xl md:text-7xl font-black italic tracking-tighter uppercase leading-none text-slate-900 drop-shadow-sm">
-                                Welcome, <br/>
-                                <span className="text-cyan-500">{userData ? userData.firstName : 'Partner'}</span>.
-                            </h1>
-                            <p className="text-slate-400 font-black uppercase tracking-[0.5em] text-[10px]">Operational Continuity: Active</p>
+                            
+                            <div className="relative group">
+                                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500 to-indigo-600 blur-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700"></div>
+                                <div className="w-32 h-32 md:w-40 md:h-40 glass-card rounded-[3rem] p-2 relative z-10 transition-transform duration-700 group-hover:rotate-6">
+                                    <div className="w-full h-full bg-gradient-to-br from-slate-50 to-white rounded-[2.5rem] flex items-center justify-center overflow-hidden border border-white/40 shadow-inner">
+                                        <span className="text-4xl md:text-5xl font-black italic text-cyan-600/30 font-outfit select-none">
+                                            {userData ? userData.firstName[0] + userData.lastName[0] : 'DC'}
+                                        </span>
+                                    </div>
+                                    <div className="absolute -bottom-2 -right-2 bg-emerald-500 p-3 rounded-2xl shadow-xl shadow-emerald-500/30 border-4 border-white animate-bounce-slow">
+                                        <Shield className="w-5 h-5 text-white" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {/* 2. Core Performance Visualization (Activity Ring) */}
@@ -737,7 +758,7 @@ function App() {
                     <div className="glass-card overflow-hidden animate-fade-in shadow-2xl relative z-10">
                         <div className="p-12 border-b border-white/10 bg-white/5/50 flex flex-col md:flex-row justify-between items-center gap-6">
                             <div>
-                                <h2 className="text-4xl font-black tracking-tighter uppercase italic leading-none text-slate-900">Duty Logs</h2>
+                                <h2 className="text-4xl font-black tracking-tighter uppercase italic leading-none text-slate-900 font-outfit">Production Archive</h2>
                                 <p className="text-[9px] font-black uppercase tracking-[0.4em] text-cyan-600 mt-2">Historical Operational Data</p>
                             </div>
                             <div className="bg-cyan-500 px-8 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] shadow-xl shadow-cyan-500/20 text-white">
@@ -802,7 +823,7 @@ function App() {
                                 </div>
                                 <div className="text-center md:text-left space-y-2 pt-2 text-slate-800">
                                     <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-                                        <h2 className="text-4xl font-black italic tracking-tighter text-slate-900 uppercase leading-none">
+                                        <h2 className="text-4xl font-black italic tracking-tighter text-slate-900 uppercase leading-none font-outfit">
                                             {userData ? `${userData.firstName} ${userData.lastName}` : 'User Profile'}
                                         </h2>
                                         <span className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border border-emerald-100 flex items-center space-x-2">
@@ -840,7 +861,7 @@ function App() {
                         <div className="glass-card overflow-hidden">
                             <div className="p-10 border-b border-slate-100 flex justify-between items-center text-slate-800">
                                 <div>
-                                    <h3 className="text-xl font-black italic uppercase text-slate-900 leading-none tracking-tighter">Credential Archive</h3>
+                                    <h3 className="text-xl font-black italic uppercase text-slate-900 leading-none tracking-tighter font-outfit">Credential Archive</h3>
                                     <p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 mt-2">Official Enterprise Records</p>
                                 </div>
                                 <button
@@ -936,26 +957,33 @@ function App() {
                             </div>
                         </div>
 
-                        <div className="glass-card overflow-hidden">
-                            <div className="h-96 relative group">
+                        <div className="glass-card overflow-hidden border-white/20">
+                            <div className="h-[32rem] relative group">
                                 <img 
                                     src={selectedService.image} 
                                     alt={selectedService.title} 
-                                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                                    className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-110"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
-                                <div className="absolute bottom-12 left-12 text-slate-800">
-                                    <h2 className="text-5xl font-black italic tracking-tighter uppercase leading-none text-slate-900 drop-shadow-sm">{selectedService.title}</h2>
-                                    <div className="flex items-center space-x-3 mt-4">
-                                        <div className="h-1.5 w-16 bg-cyan-500 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.5)]"></div>
-                                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-700">Enterprise Solution Tier</p>
+                                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent"></div>
+                                <div className="absolute bottom-16 left-12 right-12">
+                                    <div className="flex items-center space-x-4 mb-6">
+                                        <div className="h-[2px] w-12 bg-cyan-500"></div>
+                                        <span className="text-[10px] font-black uppercase tracking-[0.6em] text-cyan-600">Enterprise Asset // {selectedService.title}</span>
+                                    </div>
+                                    <h2 className="text-7xl md:text-8xl font-black italic tracking-tighter uppercase leading-[0.8] text-slate-900 drop-shadow-sm font-outfit">
+                                        {selectedService.title.split(' ')[0]} <br/>
+                                        <span className="text-cyan-500">{selectedService.title.split(' ').slice(1).join(' ')}</span>
+                                    </h2>
+                                    <div className="mt-8 flex items-center space-x-6">
+                                        <div className="px-6 py-2 bg-slate-900 text-white rounded-full text-[9px] font-black uppercase tracking-widest shadow-2xl">Tier 1 Certified</div>
+                                        <div className="px-6 py-2 bg-white text-slate-900 rounded-full text-[9px] font-black uppercase tracking-widest border border-slate-100 shadow-sm">Verified Output</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="p-12 space-y-12">
                                 <div className="space-y-6">
-                                    <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter mb-4 border-l-4 border-cyan-500 pl-4 text-slate-800">Service Philosophy</h3>
+                                    <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter mb-4 border-l-4 border-cyan-500 pl-4 text-slate-800 font-outfit">Service Philosophy</h3>
                                     <p className="text-slate-700 text-base leading-relaxed font-medium">
                                         {selectedService.longDesc}
                                     </p>
@@ -964,41 +992,46 @@ function App() {
                                 {selectedService.subServices && (
                                     <div className="space-y-8 pt-10 border-t border-slate-50">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter text-slate-800">Operational Catalog</h3>
-                                            <p className="text-[9px] font-black uppercase tracking-[0.5em] text-cyan-500">Unit Pricing & Specs</p>
+                                            <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter text-slate-800 font-outfit">Service Catalog</h3>
+                                            <p className="text-[9px] font-black uppercase tracking-[0.5em] text-cyan-500">Tiered Specifications</p>
                                         </div>
-                                        <div className="space-y-4">
+                                        <div className="grid grid-cols-1 gap-4">
                                             {selectedService.subServices.map((sub, i) => (
-                                                <div key={i} className="glass-card overflow-hidden transition-all duration-500 border-slate-100">
+                                                <div key={i} className={`glass-card overflow-hidden transition-all duration-700 ${expandedSubService === i ? 'ring-2 ring-cyan-500/20' : 'border-slate-100 hover:border-cyan-500/30'}`}>
                                                     <button 
                                                         onClick={() => setExpandedSubService(expandedSubService === i ? null : i)}
-                                                        className="w-full p-8 flex items-center justify-between hover:bg-slate-50/50 transition-colors group cursor-pointer"
+                                                        className="w-full p-10 flex items-center justify-between hover:bg-slate-50/50 transition-colors group cursor-pointer"
                                                     >
-                                                        <div className="flex items-center space-x-6 text-slate-800">
-                                                            <div className={`p-4 rounded-2xl transition-all duration-500 ${expandedSubService === i ? 'bg-cyan-500 text-white shadow-lg' : 'bg-slate-100 text-slate-400 group-hover:bg-cyan-50 text-cyan-600'}`}>
-                                                                <Monitor className="w-5 h-5" />
+                                                        <div className="flex items-center space-x-8 text-slate-800 text-left">
+                                                            <div className={`p-5 rounded-3xl transition-all duration-500 ${expandedSubService === i ? 'bg-cyan-500 text-white shadow-xl rotate-12 scale-110' : 'bg-slate-50 text-slate-400 group-hover:bg-cyan-50 group-hover:text-cyan-600'}`}>
+                                                                <Palette className="w-6 h-6" />
                                                             </div>
-                                                            <span className="text-xl font-black uppercase italic tracking-tighter group-hover:translate-x-2 transition-transform">{sub.name}</span>
+                                                            <div>
+                                                                <span className="text-2xl font-black uppercase italic tracking-tighter block group-hover:translate-x-2 transition-transform font-outfit">{sub.name}</span>
+                                                                <span className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">View Configuration</span>
+                                                            </div>
                                                         </div>
-                                                        <div className={`text-cyan-500 transition-transform duration-500 ${expandedSubService === i ? 'rotate-180' : ''}`}>▼</div>
+                                                        <div className={`w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-cyan-500 transition-all duration-500 ${expandedSubService === i ? 'rotate-180 bg-cyan-50' : 'group-hover:bg-cyan-500 group-hover:text-white'}`}>
+                                                            <ArrowRight className="w-5 h-5 -rotate-90 group-hover:rotate-0 transition-transform" />
+                                                        </div>
                                                     </button>
                                                     
                                                     {expandedSubService === i && (
-                                                        <div className="px-8 pb-8 pt-2 animate-fade-in divide-y divide-slate-50">
+                                                        <div className="px-10 pb-10 pt-4 animate-fade-in space-y-2">
                                                             {sub.pricing.map((item, idx) => (
-                                                                <div key={idx} className="flex items-center justify-between py-5 group/item">
-                                                                    <div className="flex items-center space-x-3 text-slate-800">
-                                                                        <div className="h-1.5 w-1.5 bg-cyan-500 rounded-full opacity-0 group-hover/item:opacity-100 transition-opacity"></div>
-                                                                        <span className="font-bold text-sm group-hover/item:text-cyan-600 transition-colors uppercase tracking-tight">{item.size}</span>
+                                                                <div key={idx} className="flex items-center justify-between p-6 rounded-2xl hover:bg-cyan-50/50 transition-all group/item border border-transparent hover:border-cyan-100">
+                                                                    <div className="flex items-center space-x-4 text-slate-800">
+                                                                        <div className="h-2 w-2 bg-cyan-500 rounded-full scale-0 group-hover/item:scale-100 transition-transform"></div>
+                                                                        <span className="font-black text-sm uppercase tracking-tight font-outfit">{item.size}</span>
                                                                     </div>
                                                                     <div className="text-right">
-                                                                        <span className="font-black text-slate-900 text-lg italic tracking-tighter block">{item.price}</span>
-                                                                        <span className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-300">Net Operational Rate</span>
+                                                                        <span className="font-black text-slate-950 text-2xl italic tracking-tighter block font-outfit leading-none">{item.price}</span>
+                                                                        <span className="text-[8px] font-black uppercase tracking-[0.3em] text-slate-300">Operational Rate</span>
                                                                     </div>
                                                                 </div>
                                                             ))}
-                                                            <div className="pt-6">
-                                                                <button className="w-full btn-primary py-4 text-[9px] uppercase tracking-widest font-black rounded-xl">Order Specification</button>
+                                                            <div className="pt-8">
+                                                                <button className="w-full btn-primary py-6 text-[10px] uppercase tracking-[0.4em] font-black rounded-2xl shadow-xl shadow-cyan-500/20 active:scale-95 transition-all">Submit Service Request</button>
                                                             </div>
                                                         </div>
                                                     )}
@@ -1011,16 +1044,16 @@ function App() {
                                 {selectedService.gallery && (
                                     <div className="space-y-8 pt-10 border-t border-slate-50">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter text-slate-800">Visual Archive</h3>
+                                            <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter text-slate-800 font-outfit">Visual Archive</h3>
                                             <p className="text-[9px] font-black uppercase tracking-[0.5em] text-cyan-500">Portfolio Proof</p>
                                         </div>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                                             {selectedService.gallery.map((img, i) => (
-                                                <div key={i} className="h-64 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all group border border-slate-100 bg-white">
+                                                <div key={i} className="h-72 rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-3 transition-all group border border-slate-100 bg-white">
                                                     <img 
                                                         src={img} 
                                                         alt={`Gallery ${i}`} 
-                                                        className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                                                        className="w-full h-full object-cover transition-transform duration-[2s] group-hover:scale-125" 
                                                     />
                                                 </div>
                                             ))}
