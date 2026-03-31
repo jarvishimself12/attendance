@@ -55,6 +55,7 @@ function App() {
         summary: ''
     });
     const [selectedService, setSelectedService] = useState(null);
+    const [expandedSubService, setExpandedSubService] = useState(null);
 
     // 1. Monitor Auth State
     useEffect(() => {
@@ -580,6 +581,32 @@ function App() {
                                     image: 'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?auto=format&fit=crop&q=80',
                                     desc: 'Modern visual identities and sleek digital creative solutions.',
                                     longDesc: 'We specialize in high-end brand identity design, logo creation, and digital marketing assets. Our team uses industry-leading tools like Adobe Creative Suite to ensure your business stands out with a professional, state-of-the-art aesthetic.',
+                                    subServices: [
+                                        {
+                                            name: 'Flyers',
+                                            pricing: [
+                                                { size: 'A6 (Single Sided)', price: '₵50.00' },
+                                                { size: 'A5 (Single Sided)', price: '₵80.00' },
+                                                { size: 'A4 (Single Sided)', price: '₵120.00' },
+                                                { size: 'DL (Double Sided)', price: '₵150.00' }
+                                            ]
+                                        },
+                                        {
+                                            name: 'Funeral Poster',
+                                            pricing: [
+                                                { size: '12x18 (Glossy)', price: '₵100.00' },
+                                                { size: '16x20 (Premium)', price: '₵180.00' },
+                                                { size: '20x30 (Elite)', price: '₵250.00' }
+                                            ]
+                                        },
+                                        {
+                                            name: 'Invitation Card',
+                                            pricing: [
+                                                { size: '5x7 (Standard)', price: '₵40.00' },
+                                                { size: 'Custom Cut (Luxury)', price: '₵120.00' }
+                                            ]
+                                        }
+                                    ],
                                     gallery: [
                                         'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&q=80',
                                         'https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&q=80',
@@ -896,6 +923,7 @@ function App() {
                                 onClick={() => {
                                     setView('services');
                                     setSelectedService(null);
+                                    setExpandedSubService(null);
                                 }}
                                 className="flex items-center space-x-3 text-[10px] font-black uppercase tracking-[0.2em] text-cyan-600 hover:text-cyan-800 transition-all group cursor-pointer"
                             >
@@ -932,6 +960,53 @@ function App() {
                                         {selectedService.longDesc}
                                     </p>
                                 </div>
+
+                                {selectedService.subServices && (
+                                    <div className="space-y-8 pt-10 border-t border-slate-50">
+                                        <div className="flex items-center justify-between">
+                                            <h3 className="text-2xl font-black italic uppercase text-slate-900 leading-none tracking-tighter text-slate-800">Operational Catalog</h3>
+                                            <p className="text-[9px] font-black uppercase tracking-[0.5em] text-cyan-500">Unit Pricing & Specs</p>
+                                        </div>
+                                        <div className="space-y-4">
+                                            {selectedService.subServices.map((sub, i) => (
+                                                <div key={i} className="glass-card overflow-hidden transition-all duration-500 border-slate-100">
+                                                    <button 
+                                                        onClick={() => setExpandedSubService(expandedSubService === i ? null : i)}
+                                                        className="w-full p-8 flex items-center justify-between hover:bg-slate-50/50 transition-colors group cursor-pointer"
+                                                    >
+                                                        <div className="flex items-center space-x-6 text-slate-800">
+                                                            <div className={`p-4 rounded-2xl transition-all duration-500 ${expandedSubService === i ? 'bg-cyan-500 text-white shadow-lg' : 'bg-slate-100 text-slate-400 group-hover:bg-cyan-50 text-cyan-600'}`}>
+                                                                <Monitor className="w-5 h-5" />
+                                                            </div>
+                                                            <span className="text-xl font-black uppercase italic tracking-tighter group-hover:translate-x-2 transition-transform">{sub.name}</span>
+                                                        </div>
+                                                        <div className={`text-cyan-500 transition-transform duration-500 ${expandedSubService === i ? 'rotate-180' : ''}`}>▼</div>
+                                                    </button>
+                                                    
+                                                    {expandedSubService === i && (
+                                                        <div className="px-8 pb-8 pt-2 animate-fade-in divide-y divide-slate-50">
+                                                            {sub.pricing.map((item, idx) => (
+                                                                <div key={idx} className="flex items-center justify-between py-5 group/item">
+                                                                    <div className="flex items-center space-x-3 text-slate-800">
+                                                                        <div className="h-1.5 w-1.5 bg-cyan-500 rounded-full opacity-0 group-hover/item:opacity-100 transition-opacity"></div>
+                                                                        <span className="font-bold text-sm group-hover/item:text-cyan-600 transition-colors uppercase tracking-tight">{item.size}</span>
+                                                                    </div>
+                                                                    <div className="text-right">
+                                                                        <span className="font-black text-slate-900 text-lg italic tracking-tighter block">{item.price}</span>
+                                                                        <span className="text-[8px] font-black uppercase tracking-[0.2em] text-slate-300">Net Operational Rate</span>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                            <div className="pt-6">
+                                                                <button className="w-full btn-primary py-4 text-[9px] uppercase tracking-widest font-black rounded-xl">Order Specification</button>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
 
                                 {selectedService.gallery && (
                                     <div className="space-y-8 pt-10 border-t border-slate-50">
