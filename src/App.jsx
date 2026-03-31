@@ -400,10 +400,14 @@ function App() {
                         onClick={() => setShowProfileMenu(!showProfileMenu)}
                         className="bg-cyan-500/5 hover:bg-cyan-500/10 p-1.5 rounded-2xl flex items-center space-x-3 transition-all cursor-pointer border border-cyan-500/10 group"
                     >
-                        <div className="w-10 h-10 bg-cyan-500 rounded-xl flex items-center justify-center shadow-md group-hover:rotate-6 transition-transform">
-                            <span className="text-xs font-black tracking-tighter text-white">
-                                {userData ? userData.firstName[0] + userData.lastName[0] : '...'}
-                            </span>
+                        <div className="w-10 h-10 bg-cyan-500 rounded-xl flex items-center justify-center shadow-md group-hover:rotate-6 transition-transform overflow-hidden font-outfit">
+                            {userData?.profilePic ? (
+                                <img src={userData.profilePic} alt="Profile" className="w-full h-full object-cover" />
+                            ) : (
+                                <span className="text-xs font-black tracking-tighter text-white">
+                                    {userData ? userData.firstName[0] + userData.lastName[0] : '...'}
+                                </span>
+                            )}
                         </div>
                         <div className="hidden md:block pr-2 text-left">
                             <p className="text-[10px] font-black tracking-tighter leading-none text-white">
