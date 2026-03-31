@@ -1,7 +1,7 @@
 import { Activity, ArrowRight, Award, Briefcase, Calendar, Camera, Check, CheckCircle2, Clock, Eye, EyeOff, Hammer, History, Home, Image, Layers, LogIn, LogOut, Mail, MapPin, Monitor, Palette, Search, Settings, Shield, ShoppingBag, Star, User, X } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import ceoImage from './assets/ceo-hero.jpeg';
-import logoImg from './assets/logo.png';
+import logoImg from './assets/logo_v2.png';
 
 
 // Firebase Imports
@@ -324,7 +324,7 @@ function App() {
                         <div className="absolute inset-0 bg-cyan-500/10 blur-2xl rounded-full scale-150 animate-pulse"></div>
                         <img src={logoImg} alt="DC TECH" className="w-32 h-32 relative object-contain mix-blend-multiply" />
                     </div>
-                    <h1 className="text-4xl font-black text-slate-900 tracking-[0.3em] mb-2 animate-fade-in italic">
+                    <h1 className="text-4xl font-black text-slate-900 tracking-[0.3em] mb-2 animate-fade-in italic hidden">
                         DC <span className="text-cyan-500">TECH</span>
                     </h1>
                     <div className="h-1.5 w-16 bg-cyan-500 mx-auto rounded-full mb-3"></div>
@@ -345,13 +345,9 @@ function App() {
 
                 <div className="glass-card p-10 w-full max-w-md relative z-10 animate-fade-in border-white/10">
                     <div className="flex flex-col items-center mb-10">
-                        <div className="bg-white p-3 rounded-3xl mb-6 shadow-sm border border-cyan-500/5">
-                            <img src={logoImg} alt="DC TECH" className="w-20 h-20 object-contain mix-blend-multiply" />
+                        <div className="bg-white/50 p-6 rounded-[3rem] mb-6 shadow-2xl border border-cyan-500/10 backdrop-blur-md">
+                            <img src={logoImg} alt="DC TECH" className="w-32 h-32 object-contain mix-blend-multiply" />
                         </div>
-                        <h1 className="text-4xl font-black tracking-tight text-center italic text-slate-900 leading-none">
-                            DC <span className="text-cyan-500">TECH</span>
-                        </h1>
-                        <p className="text-slate-500 mt-2 text-xs font-bold tracking-widest opacity-60">Employee Portal</p>
                     </div>
 
                     <form onSubmit={handleAuth} className="space-y-5">
@@ -422,10 +418,10 @@ function App() {
             {/* Top Header */}
             <nav className="glass sticky top-0 z-30 px-6 py-4 flex justify-between items-center backdrop-blur-2xl border-b border-white/10">
                 <div className="flex items-center space-x-3">
-                    <div className="bg-white p-2 rounded-xl shadow-md border border-cyan-500/10">
-                        <img src={logoImg} alt="DC TECH" className="w-8 h-8 object-contain mix-blend-multiply" />
-                    </div>
-                    <div>
+                    <button onClick={() => setView('home')} className="hover:scale-105 transition-transform">
+                        <img src={logoImg} alt="DC TECH" className="w-12 h-12 object-contain mix-blend-multiply" />
+                    </button>
+                    <div className="hidden">
                         <span className="text-xl font-black tracking-tighter block leading-none italic text-slate-900">DC <span className="text-cyan-500">TECH</span></span>
                         <span className="text-[8px] font-black tracking-[0.3em] text-cyan-600">Employee Portal</span>
                     </div>
